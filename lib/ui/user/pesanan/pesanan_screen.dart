@@ -19,7 +19,7 @@ class _PesananScreenState extends State<PesananScreen>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 8, vsync: this);
+    tabController = TabController(length: 9, vsync: this);
   }
 
   @override
@@ -75,6 +75,10 @@ class _PesananScreenState extends State<PesananScreen>
                   Tab(
                     text: "Menunggu Pickup",
                   ),
+                  Tab(
+                    text: "Dalam Pengiriman",
+                  ),
+
                   Tab(
                     text: "Proses Jahit",
                   ),

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
+import 'package:jahitkeeun/base/base_controller.dart';
 
-class LupaPasswordController extends GetxController{
+class LupaPasswordController extends BaseController{
 
 
   @override

@@ -1,11 +1,11 @@
 
-class RegisterModel {
+class LogoutModel {
   Meta? meta;
   List<dynamic>? data;
 
-  RegisterModel({this.meta, this.data});
+  LogoutModel({this.meta, this.data});
 
-  RegisterModel.fromJson(Map<String, dynamic> json) {
+  LogoutModel.fromJson(Map<String, dynamic> json) {
     meta = json["meta"] == null ? null : Meta.fromJson(json["meta"]);
     data = json["data"] ?? [];
   }

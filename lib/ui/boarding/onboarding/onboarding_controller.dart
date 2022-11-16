@@ -1,8 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jahitkeeun/base/base_controller.dart';
 
-class OnboardingController extends GetxController{
+class OnboardingController extends BaseController{
   List<Widget> image = [
     Image.asset('assets/intro1.png', fit: BoxFit.cover,),
     Image.asset('assets/intro2.png', fit: BoxFit.cover),

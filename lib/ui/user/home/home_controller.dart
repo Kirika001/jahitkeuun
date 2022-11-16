@@ -1,8 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jahitkeeun/base/base_controller.dart';
 
-class HomeController extends GetxController{
+class HomeController extends BaseController{
   List<Widget> image = [
     Image.asset('assets/slider1.png', fit: BoxFit.cover),
     Image.asset('assets/slider2.png', fit: BoxFit.cover),

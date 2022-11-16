@@ -180,6 +180,7 @@ class ProfilScreen extends StatelessWidget {
                           color: errorColor,
                         ),
                         trailing: Icon(Icons.chevron_right, color: errorColor),
+                        onTap: ()=> controller.logout(),
                       ),
                     ],
                   ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jahitkeeun/base/base_controller.dart';
 
-class PesananController extends GetxController {
+class PesananController extends BaseController {
 
 
   @override

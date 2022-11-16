@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jahitkeeun/binding/global_bindings.dart';
 import 'package:jahitkeeun/const/color.dart';
-import 'package:jahitkeeun/const/textstyle.dart';
 import 'package:jahitkeeun/ui/auth/login/login_screen.dart';
 import 'package:jahitkeeun/ui/auth/lupapassword/lupapassword_screen.dart';
 import 'package:jahitkeeun/ui/auth/register/register_screen.dart';
@@ -15,6 +15,9 @@ import 'package:jahitkeeun/ui/user/profil/editprofil/edit_profil_screen.dart';
 import 'package:jahitkeeun/ui/user/profil/gantipassword/gantipassword_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  GlobalBindings().dependencies();
   runApp(const MyApp());
 }
 

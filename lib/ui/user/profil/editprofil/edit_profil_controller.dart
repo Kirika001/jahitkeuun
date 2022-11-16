@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
+import 'package:jahitkeeun/base/base_controller.dart';
 
-class EditProfilController extends GetxController{
+class EditProfilController extends BaseController{
 
 
   @override

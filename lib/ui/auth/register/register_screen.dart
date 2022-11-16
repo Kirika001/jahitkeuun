@@ -49,7 +49,7 @@ class RegisterScreen extends StatelessWidget {
                           decoration: const InputDecoration(
                             // label: Text("Email"),
                             hintText: "Email",
-                            prefixIcon: Icon(Icons.person),
+                            prefixIcon: Icon(Icons.mail),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -88,7 +88,6 @@ class RegisterScreen extends StatelessWidget {
                               controller.doRegister(
                                 controller.nameController.text,
                                 controller.emailController.text,
-                                controller.usernameController.text,
                                 controller.passwordController.text,
                               );
                             }

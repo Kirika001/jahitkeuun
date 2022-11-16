@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jahitkeeun/const/color.dart';
@@ -30,15 +31,18 @@ class LoginScreen extends StatelessWidget {
                                 fontSize: 30, fontWeight: FontWeight.bold)),
                         Text("Silahkan login untuk melanjutkan\n"),
                         TextFormField(
-                          controller: controller.usernameController,
+                          controller: controller.emailController,
                           decoration: const InputDecoration(
                             // label: Text("Email"),
                             hintText: "Email",
-                            prefixIcon: Icon(Icons.person),
+                            prefixIcon: Icon(Icons.mail),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Emaiil Kosong";
+                              return "Email Kosong";
+                            } else if (EmailValidator.validate(value) ==
+                                false) {
+                              return "contoh email : name@mail.com";
                             }
                           },
                         ),
@@ -69,12 +73,10 @@ class LoginScreen extends StatelessWidget {
                           onPressed: () {
                             if (controller.key.currentState?.validate() ==
                                 true) {
-                              print("OK");
                               controller.doLogin(
-                                  controller.usernameController.text,
+                                  controller.emailController.text,
                                   controller.passwordController.text);
                             }
-                            Get.toNamed('/userDashboard');
                           },
                         ),
                         Center(child: Text("atau", style: mainTextStyle)),

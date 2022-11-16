@@ -7,6 +7,7 @@ class CustomFilledButton extends StatelessWidget {
   final IconData? icon;
   final Color color;
   final Color? borderColor;
+  final Color? fontColor;
   final double width;
   final double height;
   final VoidCallback? onPressed;
@@ -19,7 +20,8 @@ class CustomFilledButton extends StatelessWidget {
       this.icon,
       required this.color,
       this.onPressed,
-      this.borderColor})
+      this.borderColor = Colors.transparent,
+      this.fontColor = whiteColor})
       : super(key: key);
 
   @override
@@ -28,21 +30,30 @@ class CustomFilledButton extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 10),
       width: width,
       height: height,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: borderColor!)),
       child: OutlinedButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
           backgroundColor: color,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-              side: BorderSide(
-                color: Colors.greenAccent
-              )
+            borderRadius: BorderRadius.circular(10),
           ),
         ),
-        child: Text(
-          title,
-          style: mainTextStyle.copyWith(
-              color: lightColor, fontWeight: FontWeight.w900, fontSize: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            icon != null ? Icon(
+              icon,
+              color: fontColor,
+            ) : Container(),
+            Text(
+              ' $title',
+              style: mainTextStyle.copyWith(
+                  color: fontColor, fontWeight: FontWeight.w900, fontSize: 16),
+            ),
+          ],
         ),
       ),
     );

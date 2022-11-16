@@ -2,6 +2,7 @@ import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jahitkeeun/const/color.dart';
+import 'package:jahitkeeun/const/textstyle.dart';
 import 'package:jahitkeeun/ui/user/pesanan/pesanan_controller.dart';
 
 class PesananScreen extends StatefulWidget {
@@ -11,8 +12,8 @@ class PesananScreen extends StatefulWidget {
   State<PesananScreen> createState() => _PesananScreenState();
 }
 
-class _PesananScreenState extends State<PesananScreen> with TickerProviderStateMixin {
-
+class _PesananScreenState extends State<PesananScreen>
+    with TickerProviderStateMixin {
   late TabController tabController;
 
   @override
@@ -48,14 +49,22 @@ class _PesananScreenState extends State<PesananScreen> with TickerProviderStateM
                   ],
                 ),
               ),
-              ButtonsTabBar(
+              TabBar(
                 controller: tabController,
-                backgroundColor: mainColor,
-                unselectedBackgroundColor: Colors.transparent,
-                labelStyle:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                borderWidth: 1,
-                unselectedBorderColor: darkColor,
+                labelStyle: mainTextStyle.copyWith(fontWeight: FontWeight.bold,),
+                labelColor: whiteColor,
+                isScrollable: true,
+                indicatorColor: mainColor,
+                indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: mainColor
+                ),
+                unselectedLabelColor: darkColor,
+                // backgroundColor: mainColor,
+                // unselectedBackgroundColor: Colors.transparent,
+                // borderWidth: 1,
+                // unselectedBorderColor: darkColor,
+                // contentPadding: EdgeInsets.symmetric(horizontal: 10),
                 tabs: [
                   Tab(
                     text: "Semua Pesanan",
@@ -83,6 +92,14 @@ class _PesananScreenState extends State<PesananScreen> with TickerProviderStateM
                   ),
                 ],
               ),
+              Container(
+                width: Get.width,
+                height: 1,
+                margin: EdgeInsets.only(bottom: 10),
+                decoration: BoxDecoration(
+                  color: secondaryColor
+                ),
+              ),
               Expanded(
                 child: TabBarView(
                   controller: tabController,
@@ -96,7 +113,6 @@ class _PesananScreenState extends State<PesananScreen> with TickerProviderStateM
                     Text("TambahanBiaya()"),
                     Text("PesananSelesai()"),
                     Text("PesananDiterima()"),
-
                   ],
                 ),
               ),
@@ -104,6 +120,4 @@ class _PesananScreenState extends State<PesananScreen> with TickerProviderStateM
           );
         });
   }
-
-
 }

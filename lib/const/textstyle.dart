@@ -4,7 +4,9 @@ import 'package:jahitkeeun/const/color.dart';
 
 TextStyle logoTextStyle = GoogleFonts.leckerliOne();
 TextStyle mainTextStyle = GoogleFonts.quicksand();
+TextStyle labelTextStyle = GoogleFonts.quicksand(fontWeight: FontWeight.bold, fontSize: 16);
 TextStyle titleTextStyle = GoogleFonts.quicksand(color: darkColor, fontWeight: FontWeight.bold, fontSize: 20);
+TextStyle listTitleTextStyle = GoogleFonts.quicksand(color: darkColor, fontWeight: FontWeight.bold);
 TextStyle subtitleTextStyle = GoogleFonts.quicksand(fontSize: 16);
 
 FontWeight light = FontWeight.w300;

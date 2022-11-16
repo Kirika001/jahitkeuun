@@ -60,7 +60,7 @@ class LoginScreen extends StatelessWidget {
                           },
                         ),
                         TextButton(
-                            onPressed: (){},
+                            onPressed: ()=> Get.toNamed('/lupaPassword'),
                             child: Text("Lupa Password ?",style: mainTextStyle.copyWith(color: darkColor))
                         ),
                         CustomFilledButton(
@@ -74,6 +74,7 @@ class LoginScreen extends StatelessWidget {
                                   controller.usernameController.text,
                                   controller.passwordController.text);
                             }
+                            Get.toNamed('/userDashboard');
                           },
                         ),
                         Center(child: Text("atau", style: mainTextStyle)),

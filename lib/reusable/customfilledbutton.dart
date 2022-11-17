@@ -38,7 +38,7 @@ class CustomFilledButton extends StatelessWidget {
         style: TextButton.styleFrom(
           backgroundColor: color,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(5),
           ),
         ),
         child: Row(

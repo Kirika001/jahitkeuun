@@ -23,13 +23,22 @@ class HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
                   children: [
-                    Container(
-                      width: Get.width - 70,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Cari penjahit, item atau jasa',
-                          border: InputBorder.none,
-                          suffixIcon: Icon(Icons.search),
+                    GestureDetector(
+                      onTap: ()=> Get.toNamed('/search'),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        width: Get.width - 68,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Cari penjahit, item atau jasa'),
+                            Icon(Icons.search)
+                          ],
                         ),
                       ),
                     ),
@@ -41,58 +50,61 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ListTile(
-                        leading: Icon(Icons.location_on),
-                        title: Text("Dikirim ke/Dijemput di:"),
-                        subtitle: Text("user address"),
-                        trailing: Icon(Icons.arrow_right),
-                      ),
-                      CarouselSlider(
-                        items: controller.image,
-                        options: CarouselOptions(
-                            autoPlay: true,
-                            viewportFraction: 1,
-                            enableInfiniteScroll: false,
-                            // height: 200,
-                            onPageChanged: (index, reason) => controller.currentIndex),
-                        carouselController: controller.carouselController,
-                      ),
-                      ListTile(
-                        title: Text('Pilihan jahit'),
-                        trailing: Text('liht semua',
-                            style: mainTextStyle.copyWith(color: mainColor)),
-                      ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child:SizedBox(
-                          height: 150,
-                          child: Row(
-                            children: [
-                              CategoryCard(img: blouseImg, title: 'Blouse'),
-                              CategoryCard(img: dressminImg, title: 'Dress Pendek'),
-                              CategoryCard(img: gamisImg, title: 'Gamis'),
-                              CategoryCard(img: kerudungImg, title: 'Kerudung'),
-                              CategoryCard(img: pantImg, title: 'Celana'),
-                              CategoryCard(img: skirtImg, title: 'Rok'),
-                              CategoryCard(img: kemejaImg, title: 'Kemeja'),
-                            ],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        ListTile(
+                          leading: Icon(Icons.location_on),
+                          title: Text("Dikirim ke/Dijemput di:"),
+                          subtitle: Text("user address"),
+                          trailing: Icon(Icons.arrow_right),
+                        ),
+                        CarouselSlider(
+                          items: controller.image,
+                          options: CarouselOptions(
+                              autoPlay: true,
+                              viewportFraction: 1,
+                              enableInfiniteScroll: false,
+                              // height: 200,
+                              onPageChanged: (index, reason) => controller.currentIndex),
+                          carouselController: controller.carouselController,
+                        ),
+                        ListTile(
+                          title: Text('Pilihan jahit'),
+                          trailing: Text('lihat semua',
+                              style: labelTextStyle.copyWith(color: secondaryColor, fontSize: 15)),
+                        ),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child:SizedBox(
+                            height: 150,
+                            child: Row(
+                              children: [
+                                CategoryCard(img: blouseImg, title: 'Blouse'),
+                                CategoryCard(img: dressminImg, title: 'Dress Pendek'),
+                                CategoryCard(img: gamisImg, title: 'Gamis'),
+                                CategoryCard(img: kerudungImg, title: 'Kerudung'),
+                                CategoryCard(img: pantImg, title: 'Celana'),
+                                CategoryCard(img: skirtImg, title: 'Rok'),
+                                CategoryCard(img: kemejaImg, title: 'Kemeja'),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      ListTile(
-                        title: Text('Penjahit Kami'),
-                        trailing: Text('Short by', style: mainTextStyle.copyWith(color: mainColor),),
-                      ),
-                      TailorCard(),
-                      TailorCard(),
-                      TailorCard(),
-                      TailorCard(),
-                      TailorCard(),
-                      TailorCard(),
-                    ],
+                        ListTile(
+                          title: Text('Penjahit Kami'),
+                          trailing: Text('Sort by', style: labelTextStyle.copyWith(color: secondaryColor, fontSize: 15),),
+                        ),
+                        TailorCard(),
+                        TailorCard(),
+                        TailorCard(),
+                        TailorCard(),
+                        TailorCard(),
+                        TailorCard(),
+                      ],
+                    ),
                   ),
                 ),
               ),

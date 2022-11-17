@@ -11,14 +11,19 @@ class AlamatScreen extends StatelessWidget {
       backgroundColor: lightColor,
       appBar: AppBar(
         title: Text('Alamat'),
+        actions: [
+          IconButton(
+            onPressed: () => Get.toNamed('/tambahAlamat'),
+            icon: Icon(Icons.add),
+          )
+        ],
       ),
       body: ListView.builder(
         itemCount: 2,
-        itemBuilder: (context, index) =>
-          ListTile(
-            title: Text('Alamat ${index+1}'),
-            onTap: ()=> Get.toNamed('/editAlamat'),
-          ),
+        itemBuilder: (context, index) => ListTile(
+          title: Text('Alamat ${index + 1}'),
+          onTap: () => Get.toNamed('/editAlamat'),
+        ),
       ),
     );
   }

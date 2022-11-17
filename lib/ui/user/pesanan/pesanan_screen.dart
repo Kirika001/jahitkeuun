@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jahitkeeun/const/color.dart';
 import 'package:jahitkeeun/const/textstyle.dart';
+import 'package:jahitkeeun/reusable/card_pesanan.dart';
+import 'package:jahitkeeun/reusable/customdivider.dart';
 import 'package:jahitkeeun/ui/user/pesanan/pesanan_controller.dart';
+import 'package:jahitkeeun/ui/user/pesanan/semua/semua_pesanan_screen.dart';
 
 class PesananScreen extends StatefulWidget {
   const PesananScreen({Key? key}) : super(key: key);
@@ -35,13 +38,19 @@ class _PesananScreenState extends State<PesananScreen>
                 child: Row(
                   children: [
                     Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       width: Get.width - 70,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Cari penjahit, item atau jasa',
-                          border: InputBorder.none,
-                          suffixIcon: Icon(Icons.search),
-                        ),
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Cari penjahit, item atau jasa'),
+                          Icon(Icons.search)
+                        ],
                       ),
                     ),
                     IconButton(
@@ -56,7 +65,7 @@ class _PesananScreenState extends State<PesananScreen>
                 isScrollable: true,
                 indicatorColor: mainColor,
                 indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
                     color: mainColor
                 ),
                 unselectedLabelColor: darkColor,
@@ -96,19 +105,12 @@ class _PesananScreenState extends State<PesananScreen>
                   ),
                 ],
               ),
-              Container(
-                width: Get.width,
-                height: 1,
-                margin: EdgeInsets.only(bottom: 10),
-                decoration: BoxDecoration(
-                  color: secondaryColor
-                ),
-              ),
+              CustomDivider(color: mainColor,),
               Expanded(
                 child: TabBarView(
                   controller: tabController,
                   children: <Widget>[
-                    Text("SemuaPesanan()"),
+                    SemuaPesananScreen(),
                     Text("PembayaranTerkonfirmasi()"),
                     Text("MenungguPickup()"),
                     Text("PesananDalamPengiriman()"),

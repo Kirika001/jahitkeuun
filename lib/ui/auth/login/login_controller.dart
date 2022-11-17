@@ -10,6 +10,7 @@ class LoginController extends BaseController {
   final storage = StorageCore();
 
   LoginModel? loginModel;
+  bool? isLoading;
 
   final key = GlobalKey<FormState>();
   final emailController = TextEditingController();
@@ -32,12 +33,15 @@ class LoginController extends BaseController {
   }
 
   void doLogin(String email, String password) async {
+
     try {
+      isLoading = true;
       var response =
           await repository.postLogin(email, password);
       loginModel = response;
 
       if (loginModel?.meta?.status == 'success') {
+        isLoading = false;
         storage.saveAuthResponse(response);
         print(storage.getAccessToken());
         Fluttertoast.showToast(msg: "Login Berhasil");

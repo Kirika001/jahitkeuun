@@ -40,7 +40,8 @@ class ProfilScreen extends StatelessWidget {
                   Positioned(
                       top: 25, right: 10,
                       child: IconButton(
-                          icon: Icon(Icons.shopping_cart, color: darkColor, size: 25),
+                          icon: Icon(
+                              Icons.shopping_cart, color: darkColor, size: 25),
                           onPressed: () {}
                       )
                   ),
@@ -78,7 +79,7 @@ class ProfilScreen extends StatelessWidget {
                             fontColor: darkColor,
                             title: 'Edit Profil',
                             icon: Icons.edit,
-                            onPressed: ()=>Get.toNamed('/editProfil'),
+                            onPressed: () => Get.toNamed('/editProfil'),
                           )
                         ],
                       ),
@@ -145,18 +146,20 @@ class ProfilScreen extends StatelessWidget {
                         title: Text('Alamat', style: listTitleTextStyle),
                         leading: Icon(Icons.location_on),
                         trailing: Text('Alamat', style: subtitleTextStyle),
-                        onTap: ()=>Get.toNamed('/alamat'),
+                        onTap: () => Get.toNamed('/alamat'),
                       ),
                       ListTile(
-                        title: Text('Ganti Password', style: listTitleTextStyle),
+                        title: Text(
+                            'Ganti Password', style: listTitleTextStyle),
                         leading: Icon(Icons.lock),
                         trailing: Text('* * * *', style: subtitleTextStyle),
-                        onTap: ()=> Get.toNamed('/gantiPassword'),
+                        onTap: () => Get.toNamed('/gantiPassword'),
                       ),
 
                       Text('   Tentang Aplikasi', style: titleTextStyle),
                       ListTile(
-                        title: Text('Versi Aplikasi', style: listTitleTextStyle),
+                        title: Text(
+                            'Versi Aplikasi', style: listTitleTextStyle),
                         leading: Icon(Icons.history),
                         trailing: Text('1.0.0', style: subtitleTextStyle),
                       ),
@@ -164,23 +167,34 @@ class ProfilScreen extends StatelessWidget {
                         title: Text('Tentang Kami', style: listTitleTextStyle),
                         leading: Icon(Icons.info),
                         trailing: Icon(Icons.chevron_right),
+                        onTap: () => Get.toNamed('/about'),
                       ),
                       Text('   Akun', style: titleTextStyle),
                       ListTile(
+                        title: Text('Daftar Sebagai penjahit',
+                            style: listTitleTextStyle),
+                        leading: Image.asset(
+                            "assets/sewing-machine.png", height: 25),
+                        trailing: Icon(Icons.chevron_right),
+                      ),
+                      ListTile(
                         title: Text('Hapus Akun',
-                            style: listTitleTextStyle.copyWith(color: errorColor)),
+                            style: listTitleTextStyle.copyWith(
+                                color: errorColor)),
                         leading: Icon(Icons.delete, color: errorColor),
                         trailing: Icon(Icons.chevron_right, color: errorColor),
                       ),
+
                       ListTile(
                         title: Text('Keluar',
-                            style: listTitleTextStyle.copyWith(color: errorColor)),
+                            style: listTitleTextStyle.copyWith(
+                                color: errorColor)),
                         leading: Icon(
                           Icons.logout,
                           color: errorColor,
                         ),
                         trailing: Icon(Icons.chevron_right, color: errorColor),
-                        onTap: ()=> controller.logout(),
+                        onTap: () => controller.logout(),
                       ),
                     ],
                   ),

@@ -13,6 +13,7 @@ class SearchScreen extends StatelessWidget {
       appBar: AppBar(
         title: TextField(
           decoration: InputDecoration(
+            contentPadding: EdgeInsets.only(top: 15, left: 10),
             hintText: 'Cari Penjahit',
             border: InputBorder.none,
             suffixIcon: Icon(Icons.search)
@@ -20,7 +21,7 @@ class SearchScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () => Get.toNamed('/keranjang'),
               icon: Icon(Icons.shopping_cart)
           )
         ],

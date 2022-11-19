@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jahitkeeun/const/temp_img.dart';
@@ -8,41 +9,60 @@ import '';
 class CategoryCard extends StatelessWidget {
   final img;
   final title;
+  final VoidCallback? onTap;
 
-  const CategoryCard({Key? key,
-    this.img,
-    this.title
-  }) : super(key: key);
+  const CategoryCard({Key? key, this.img, this.title, this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 5),
-      elevation: 3,
-      child:  Stack(
-          children: [
-            Container(
-                width: 120,
-                height: 150,
-                decoration: BoxDecoration(
-                    color: darkColor,
-                    borderRadius: BorderRadius.circular(10)
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        margin: const EdgeInsets.symmetric(horizontal: 5),
+        color: darkColor,
+        elevation: 3,
+        child: Container(
+            padding: EdgeInsets.all(10),
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+                color: darkColor, borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              children: [
+                Image.network(
+                  img,
+                  height: 60,
+                  width: 60,
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  },
                 ),
-                child: Image.network(img, fit: BoxFit.fill)
-            ),
-            Positioned(
-              bottom: 0,
-              width: Get.width,
-              height: 30,
-              child: Container(
-                child: Text(' $title', style: subtitleTextStyle.copyWith(fontWeight: FontWeight.bold),),
-                decoration:BoxDecoration(
-                  color: secondaryColor.withOpacity(0.7)
-                ),
-              ),
-            )
-          ],
-        ),
+                SizedBox(height: 5),
+                Center(
+                  child: Text(
+                    ' $title',
+                    style: subtitleTextStyle.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: whiteColor,
+                        fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
+                )
+              ],
+            )),
+      ),
     );
   }
 }

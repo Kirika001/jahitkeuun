@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 import 'package:jahitkeeun/const/color.dart';
 import 'package:jahitkeeun/const/temp_img.dart';
 import 'package:jahitkeeun/const/textstyle.dart';
@@ -8,6 +9,7 @@ class TailorCard extends StatelessWidget {
   final String? fotoProfil;
   final String? namaPenjahit;
   final String? lokasiPenjahit;
+  final int? idPenjahit;
   final double? rating;
   final int? totalOrder;
   final VoidCallback? onTap;
@@ -25,12 +27,16 @@ class TailorCard extends StatelessWidget {
     this.onTap,
     this.color = Colors.white,
     this.elevation = 3,
+    this.idPenjahit
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: idPenjahit != null ? () {
+        Get.toNamed('/detilPenjahit', arguments: idPenjahit);
+        print('ID Penjahit : ${idPenjahit}');
+      }: onTap,
       child: Card(
         color: color,
         elevation: elevation,
@@ -46,6 +52,20 @@ class TailorCard extends StatelessWidget {
               child: Image.network(
                 fotoProfil!,
                 fit: BoxFit.cover,
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                },
               ),
             ),
             Column(
@@ -55,9 +75,12 @@ class TailorCard extends StatelessWidget {
                   namaPenjahit!,
                   style: titleTextStyle,
                 ),
-                Text(
-                  lokasiPenjahit!,
-                  style: subtitleTextStyle,
+                SizedBox(
+                  width: 180,
+                  child: Text(
+                    lokasiPenjahit!,
+                    style: subtitleTextStyle,
+                  ),
                 ),
                 Row(
                   children: [

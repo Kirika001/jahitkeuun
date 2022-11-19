@@ -7,9 +7,9 @@ class NetworkCore {
   NetworkCore() {
     dio.options = BaseOptions(
       baseUrl: baseUrl,
-      connectTimeout: 30000,
-      receiveTimeout: 30000,
-      sendTimeout: 30000,
+      // connectTimeout: 30000,
+      // receiveTimeout: 30000,
+      // sendTimeout: 30000,
     );
     dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
   }

@@ -48,11 +48,11 @@ class CustomFilledButton extends StatelessWidget {
               icon,
               color: fontColor,
             ) : Container(),
-            Text(
+            title != null ? Text(
               ' $title',
               style: mainTextStyle.copyWith(
                   color: fontColor, fontWeight: FontWeight.w900, fontSize: 16),
-            ),
+            ) : Container(),
           ],
         ),
       ),

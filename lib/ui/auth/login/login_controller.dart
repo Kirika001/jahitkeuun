@@ -10,7 +10,7 @@ class LoginController extends BaseController {
   final storage = StorageCore();
 
   LoginModel? loginModel;
-  bool? isLoading;
+  bool isLoading = false;
 
   final key = GlobalKey<FormState>();
   final emailController = TextEditingController();
@@ -19,9 +19,10 @@ class LoginController extends BaseController {
   @override
   void onInit() {
     super.onInit();
-
+    isLoading;
     emailController.text;
     passwordController.text;
+    update();
   }
 
   @override
@@ -33,9 +34,9 @@ class LoginController extends BaseController {
   }
 
   void doLogin(String email, String password) async {
-
+    isLoading = true;
+    update();
     try {
-      isLoading = true;
       var response =
           await repository.postLogin(email, password);
       loginModel = response;
@@ -46,15 +47,13 @@ class LoginController extends BaseController {
         print(storage.getAccessToken());
         Fluttertoast.showToast(msg: "Login Berhasil");
         update();
-        
+
         if(storage.getCurrentUserRole() == 'client'){
-          Get.offAllNamed("/userDashboard");  
+          Get.offAllNamed("/userDashboard");
         } else if(storage.getCurrentUserRole() == 'tailor') {
           Get.offAllNamed("/tailorDashboard");
         }
-        
-      } else {
-        Fluttertoast.showToast(msg: loginModel!.meta!.message!);
+
       }
     } catch (e) {
       Fluttertoast.showToast(

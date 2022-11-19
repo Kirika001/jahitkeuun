@@ -42,7 +42,7 @@ class ProfilScreen extends StatelessWidget {
                       child: IconButton(
                           icon: Icon(
                               Icons.shopping_cart, color: darkColor, size: 25),
-                          onPressed: () {}
+                          onPressed: () => Get.toNamed('/keranjang')
                       )
                   ),
                   Padding(
@@ -101,6 +101,7 @@ class ProfilScreen extends StatelessWidget {
                           vertical: 90, horizontal: 20),
                       child: Container(
                         decoration: BoxDecoration(
+                          color: darkColor,
                           borderRadius: BorderRadius.circular(100),
                           boxShadow: [
                             BoxShadow(

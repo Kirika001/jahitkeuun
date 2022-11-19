@@ -16,8 +16,10 @@ import 'package:jahitkeeun/ui/user/profil/alamat/tambah/tambah_alamat_screen.dar
 import 'package:jahitkeeun/ui/user/profil/editprofil/edit_profil_screen.dart';
 import 'package:jahitkeeun/ui/user/profil/gantipassword/gantipassword_screen.dart';
 import 'package:jahitkeeun/ui/user/search/detil/detil_penjahit_screen.dart';
+import 'package:jahitkeeun/ui/user/search/penjahit/list_penjahit_screen.dart';
 import 'package:jahitkeeun/ui/user/search/search_screen.dart';
 import 'package:jahitkeeun/ui/user/transaksi/detil/detil_transaksi_screen.dart';
+import 'package:jahitkeeun/ui/user/transaksi/keranjang/keranjang_screen.dart';
 import 'package:jahitkeeun/ui/user/transaksi/pesanjasa/pesan_jasa_screen.dart';
 
 void main() {
@@ -68,8 +70,10 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/about', page: ()=> const AboutScreen()),
         GetPage(name: '/detilTransaksi', page: ()=> const DetilTransaksiScreen()),
         GetPage(name: '/search', page: ()=> const SearchScreen()),
+        GetPage(name: '/listPenjahit', page: ()=> const ListPenjahitScreen()),
         GetPage(name: '/detilPenjahit', page: ()=> const DetilPenjahitScreen()),
         GetPage(name: '/pesanJasa', page: ()=> const PesanJasaScreen()),
+        GetPage(name: '/keranjang', page: ()=> const KeranjangScreen()),
         GetPage(name: '/tailorDashboard', page: ()=> const TailorMainScreen()),
       ],
       initialRoute: '/',

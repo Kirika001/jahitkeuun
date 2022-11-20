@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jahitkeeun/base/base_controller.dart';
@@ -10,7 +11,6 @@ class HomeController extends BaseController {
   CategoryModel? categoryModel;
   TailorModel? tailorModel;
   CurrentAddressModel? currentAddress;
-  bool isLoading = false;
 
   List<Widget> image = [
     Image.asset('assets/slider1.png', fit: BoxFit.cover),
@@ -25,25 +25,48 @@ class HomeController extends BaseController {
   void onInit() {
     super.onInit();
     image;
-    categoryList();
+    Future.wait([
+      categoryList(),
+      fetchAddress(),
+      fetchTaylor()
+    ]);
+    // categoryList();
     update();
   }
 
-  void categoryList() async {
-    isLoading = true;
+  Future<void> categoryList() async {
     try {
       var category =
           await repository.getCategory(storage.getAccessToken() ?? '');
-      var tailor = await repository.getTailor(storage.getAccessToken() ?? '');
-      var address = await repository.getCurrentAddress(
-          storage.getAccessToken() ?? '', storage.getCurrentUserId() ?? 0);
-      isLoading = false;
-      tailorModel = tailor;
       categoryModel = category;
-      currentAddress = address;
       update();
-    } catch (e) {
+    } on DioError catch(e) {
+      print(e.response?.data.toString());
       return e.printError();
     }
   }
+
+  Future<void> fetchTaylor() async {
+    try {
+      var tailor = await repository.getTailor(storage.getAccessToken() ?? '');
+      tailorModel = tailor;
+      update();
+    } on DioError catch(e) {
+      debugPrint(e.response?.data.toString());
+    }
+  }
+
+  Future<void> fetchAddress() async {
+    try {
+      var address = await repository.getCurrentAddress(
+          storage.getAccessToken() ?? '', storage.getCurrentUserId() ?? 0);
+      currentAddress = address;
+      update();
+    } on DioError catch(e) {
+      debugPrint(e.response?.data.toString());
+    }
+
+  }
+
+
 }

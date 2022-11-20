@@ -46,16 +46,16 @@ class LoginController extends BaseController {
         storage.saveAuthResponse(response);
         print(storage.getAccessToken());
         Fluttertoast.showToast(msg: "Login Berhasil");
-        update();
 
-        if(storage.getCurrentUserRole() == 'client'){
+        if(loginModel?.data?.role == 'client'){
           Get.offAllNamed("/userDashboard");
-        } else if(storage.getCurrentUserRole() == 'tailor') {
+        } else if(loginModel?.data?.role == 'tailor') {
           Get.offAllNamed("/tailorDashboard");
         }
-
+        update();
       }
     } catch (e) {
+      isLoading = false;
       Fluttertoast.showToast(
           msg: loginModel?.meta?.message ?? "Login Gagal");
       // Fluttertoast.showToast(msg: e.toString());

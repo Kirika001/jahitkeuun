@@ -8,4 +8,7 @@ const kemejaImg = 'https://i.pinimg.com/564x/ef/68/9f/ef689f75625972d22b0173c797
 
 const profilImg = 'https://images.pexels.com/photos/5704849/pexels-photo-5704849.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940';
 
+const categoryImg = 'https://apijahitkeeun.tepat.co.id/photo-item';
+const fotoProfil = 'https://apijahitkeeun.tepat.co.id/photo-user';
+
 const lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";

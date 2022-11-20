@@ -7,7 +7,6 @@ import 'package:jahitkeeun/const/textstyle.dart';
 import 'package:jahitkeeun/reusable/card_category.dart';
 import 'package:jahitkeeun/reusable/card_tailor.dart';
 import 'package:jahitkeeun/ui/user/home/home_controller.dart';
-import 'package:jahitkeeun/data/model/category_model.dart' as category;
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -53,20 +52,21 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Center(
                     child: SingleChildScrollView(
-                      child: controller.isLoading == false ? Column(
+                      child: Column(
                         children: [
-                          ListTile(
+                          controller.currentAddress != null ? ListTile(
                             onTap: () => Get.toNamed('/alamat'),
                             leading: Icon(Icons.location_on),
                             title: Text("Dikirim ke/Dijemput di:"),
                             subtitle: Text(
-                              controller.currentAddress?.data?[0].alamat ??
+                              controller
+                                  .currentAddress?.data?[0].alamat ??
                                   '',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            trailing: Icon(Icons.arrow_right),
-                          ),
+                            trailing: const Icon(Icons.arrow_right),
+                          ) : const Center(child: CircularProgressIndicator.adaptive()),
                           CarouselSlider(
                             items: controller.image,
                             options: CarouselOptions(
@@ -85,28 +85,28 @@ class HomeScreen extends StatelessWidget {
                                 style: labelTextStyle.copyWith(
                                     color: secondaryColor, fontSize: 15)),
                           ),
-                          SingleChildScrollView(
+                          controller.categoryModel != null ? SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: SizedBox(
                               height: 100,
                               child: Row(
                                 children:
                                 controller.categoryModel!.data!.data!
-                                    .map((e) =>
-                                    CategoryCard(
-                                      img:
-                                      'https://apijahitkeeun.tepat.co.id/photo-item/${e
-                                          .itemPhoto}',
-                                      title: e.itemName,
-                                      onTap: () =>
-                                          Get.toNamed(
-                                              '/listPenjahit', arguments: int
-                                              .parse(e.itemId!)),
-                                    ))
+                                    .map((e) => CategoryCard(
+                                  img:
+                                  '$categoryImg/${e.itemPhoto}',
+                                  title: e.itemName,
+                                  onTap: () => Get.toNamed(
+                                    '/listPenjahit',
+                                    arguments:
+                                    int.parse(e.itemId!),
+                                    // arguments: 1,
+                                  ),
+                                ))
                                     .toList(),
                               ),
                             ),
-                          ),
+                          ) : const Center(child: CircularProgressIndicator.adaptive(),),
                           ListTile(
                             title: Text('Penjahit Kami'),
                             trailing: Text(
@@ -115,27 +115,28 @@ class HomeScreen extends StatelessWidget {
                                   color: secondaryColor, fontSize: 15),
                             ),
                           ),
-                          Column(
-                            children: controller.tailorModel!.data!
-                                .map((e) =>
-                                TailorCard(
-                                  idPenjahit: int.parse(e.taylorId!),
-                                  namaPenjahit:
-                                  e.taylorName!.capitalizeFirst,
-                                  lokasiPenjahit:
-                                  e.districtName!.capitalizeFirst,
-                                  rating: double.parse(e.taylorRating!),
-                                  totalOrder: e.taylorComtrans ?? 0,
-                                  fotoProfil: e.taylorPhoto ==
-                                      'avatar.png'
-                                      ? profilImg
-                                      : 'https://apijahitkeeun.tepat.co.id/photo-user/${e
-                                      .taylorPhoto}',
-                                ))
-                                .toList(),
-                          )
+                          controller.tailorModel != null ? Column(
+                            children: controller.tailorModel!.data?.data
+                                ?.map((e) => TailorCard(
+                              idPenjahit: int.parse(e.taylorId ?? "0"),
+                              namaPenjahit:
+                              e.taylorName!.capitalizeFirst,
+                              // e.taylorPhoto,
+                              lokasiPenjahit:
+                              e.districtName!.capitalizeFirst,
+                              rating:
+                              double.parse(e.taylorRating!),
+                              totalOrder: int.parse(
+                                  e.taylorComtrans ?? '0'),
+                              fotoProfil: e.taylorPhoto !=
+                                  'avatar.png'
+                                  ? '$fotoProfil/${e.taylorPhoto}'
+                                  : profilImg,
+                            ))
+                                .toList() ?? [],
+                          ) : const Center(child: CircularProgressIndicator.adaptive(),)
                         ],
-                      ) : Center(child: CircularProgressIndicator.adaptive()),
+                      ),
                     ),
                   ),
                 ),

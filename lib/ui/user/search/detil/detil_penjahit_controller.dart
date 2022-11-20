@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:jahitkeeun/base/base_controller.dart';
+import 'package:jahitkeeun/data/model/category_bytailorid_model.dart';
 import 'package:jahitkeeun/data/model/tailor_detail_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetilPenjahitController extends BaseController {
   TailorDetailModel? tailorDetailModel;
+  CategoryBytailoridModel? categoryTailorModel;
   bool isLoading = false;
 
   @override
@@ -22,6 +24,11 @@ class DetilPenjahitController extends BaseController {
       var response = await repository.getTailorDetail(
           storage.getAccessToken() ?? '', Get.arguments);
       tailorDetailModel = response;
+
+      var category = await repository.getCategoryTailor(storage.getAccessToken() ?? '', Get.arguments);
+      categoryTailorModel = category;
+      print('category taylor : ${categoryTailorModel!.data!.data!.first.itemName}');
+
       isLoading = false;
       update();
     } catch (e) {
@@ -29,8 +36,8 @@ class DetilPenjahitController extends BaseController {
     }
   }
 
-  void chat() async {
-    var contact = "+6281394683395";
+  void chat(String nomor) async {
+    var contact = "+62$nomor";
     var androidUrl = "whatsapp://send?phone=$contact&text=Hi, I need some help";
     var iosUrl =
         "https://wa.me/$contact?text=${Uri.parse('Hi, I need some help')}";

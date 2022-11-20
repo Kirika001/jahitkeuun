@@ -50,7 +50,7 @@ class TailorCard extends StatelessWidget {
               decoration: BoxDecoration(
                   color: darkColor, borderRadius: BorderRadius.circular(10)),
               child: Image.network(
-                fotoProfil!,
+                fotoProfil ?? profilImg,
                 fit: BoxFit.cover,
                 loadingBuilder: (BuildContext context, Widget child,
                     ImageChunkEvent? loadingProgress) {
@@ -66,14 +66,21 @@ class TailorCard extends StatelessWidget {
                     ),
                   );
                 },
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.network(
+                      profilImg, fit: BoxFit.cover,);
+                },
               ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  namaPenjahit!,
-                  style: titleTextStyle,
+                SizedBox(
+                  width: 180,
+                  child: Text(
+                    namaPenjahit!,
+                    style: titleTextStyle,
+                  ),
                 ),
                 SizedBox(
                   width: 180,

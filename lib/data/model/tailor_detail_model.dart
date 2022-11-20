@@ -98,35 +98,41 @@ class Message {
 }
 
 class Data {
-  String? id;
   String? taylorId;
   String? taylorName;
   String? taylorPhoto;
+  String? rating;
+  dynamic completedTransaction;
   String? taylorPhone;
   String? dateBirth;
   String? placeBirth;
+  String? districtName;
 
-  Data({this.id, this.taylorId, this.taylorName, this.taylorPhoto, this.taylorPhone, this.dateBirth, this.placeBirth});
+  Data({this.taylorId, this.taylorName, this.taylorPhoto, this.rating, this.completedTransaction, this.taylorPhone, this.dateBirth, this.placeBirth, this.districtName});
 
   Data.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
     taylorId = json["taylor_id"];
     taylorName = json["taylor_name"];
     taylorPhoto = json["taylor_photo"];
+    rating = json["rating"];
+    completedTransaction = json["completed_transaction"];
     taylorPhone = json["taylor_phone"];
     dateBirth = json["date_birth"];
     placeBirth = json["place_birth"];
+    districtName = json["districtName"];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["id"] = id;
     _data["taylor_id"] = taylorId;
     _data["taylor_name"] = taylorName;
     _data["taylor_photo"] = taylorPhoto;
+    _data["rating"] = rating;
+    _data["completed_transaction"] = completedTransaction;
     _data["taylor_phone"] = taylorPhone;
     _data["date_birth"] = dateBirth;
     _data["place_birth"] = placeBirth;
+    _data["districtName"] = districtName;
     return _data;
   }
 }

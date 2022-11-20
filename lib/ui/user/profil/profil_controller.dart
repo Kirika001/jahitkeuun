@@ -17,16 +17,17 @@ class ProfilController extends BaseController{
   }
 
   void logout() async{
-    try{
-      var res = await repository.postLogout(storage.getAccessToken().toString());
-      logoutModel = res;
+    // try{
+      // var res = await repository.postLogout(storage.getAccessToken().toString());
+      // logoutModel = res;
       storage.deleteAuthResponse();
-      Fluttertoast.showToast(msg: res?.meta?.message ?? 'logout gagal');
-      if (res?.meta?.code == 200) {
+      // Fluttertoast.showToast(msg: res?.meta?.message ?? 'logout gagal');
+      Fluttertoast.showToast(msg: 'Logout Berhasil');
+      // if (res?.meta?.code == 200) {
         Get.offAllNamed('/login');
-      }
-    } catch(e){
-      e.printError();
-    }
+      // }
+    // } catch(e){
+    //   e.printError();
+    // }
   }
 }

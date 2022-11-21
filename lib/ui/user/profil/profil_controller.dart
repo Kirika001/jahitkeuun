@@ -2,18 +2,24 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:jahitkeeun/base/base_controller.dart';
 import 'package:jahitkeeun/data/model/logout_model.dart';
-import 'package:jahitkeeun/data/storage_core.dart';
 
 class ProfilController extends BaseController{
-  final storage = StorageCore();
 
   LogoutModel? logoutModel;
+  String? namaUser;
+  String? kontakUser;
+  String? emailUser;
+  String? roleUser;
+
 
 
   @override
   void onInit() {
     super.onInit();
-
+    namaUser = storage.getCurrentUserName();
+    kontakUser = storage.getCurrentUserId().toString();
+    emailUser = storage.getCurrentUserMail();
+    roleUser = storage.getCurrentUserRole();
   }
 
   void logout() async{

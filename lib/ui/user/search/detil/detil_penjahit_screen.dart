@@ -91,13 +91,16 @@ class DetilPenjahitScreen extends StatelessWidget {
                           child: CustomFilledButton(
                             title: 'Pesan Jasa',
                             color: mainColor,
-                            onPressed: () => Get.toNamed('/pesanJasa',
-                                arguments: {
-                                  "tailorID": int.parse(controller.tailorDetailModel?.meta
-                                      ?.message?.data?.first.taylorId ?? ''),
-                                  "tailorName" : controller.tailorDetailModel?.meta
-                                    ?.message?.data?.first.taylorName ?? ''
-                                }),
+                            onPressed: () =>
+                                Get.toNamed('/pesanJasa', arguments: {
+                              "tailorID": int.parse(controller.tailorDetailModel
+                                      ?.meta?.message?.data?.first.taylorId ??
+                                  ''),
+                              "tailorName": controller.tailorDetailModel?.meta
+                                      ?.message?.data?.first.taylorName ??
+                                  '',
+                              "itemID": 0
+                            }),
                           ),
                         ),
                         Padding(
@@ -110,6 +113,26 @@ class DetilPenjahitScreen extends StatelessWidget {
                         Column(
                           children: controller.categoryTailorModel!.data!.data!
                               .map((e) => ItemCategory(
+                                    onTap: () =>
+                                        Get.toNamed('/pesanJasa', arguments: {
+                                      "tailorID": int.parse(controller
+                                              .tailorDetailModel
+                                              ?.meta
+                                              ?.message
+                                              ?.data
+                                              ?.first
+                                              .taylorId ??
+                                          ''),
+                                      "tailorName": controller
+                                              .tailorDetailModel
+                                              ?.meta
+                                              ?.message
+                                              ?.data
+                                              ?.first
+                                              .taylorName ??
+                                          '',
+                                      "itemID": int.parse(e.itemId!)
+                                    }),
                                     imgCategory: '$categoryImg/${e.itemPhoto}',
                                     namaCategory: e.itemName,
                                   ))

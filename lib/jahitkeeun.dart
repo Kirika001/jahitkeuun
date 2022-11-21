@@ -17,6 +17,7 @@ import 'package:jahitkeeun/ui/user/profil/gantipassword/gantipassword_screen.dar
 import 'package:jahitkeeun/ui/user/search/detil/detil_penjahit_screen.dart';
 import 'package:jahitkeeun/ui/user/search/penjahit/list_penjahit_screen.dart';
 import 'package:jahitkeeun/ui/user/search/search_screen.dart';
+import 'package:jahitkeeun/ui/user/transaksi/checkout/checkout_screen.dart';
 import 'package:jahitkeeun/ui/user/transaksi/detil/detil_transaksi_screen.dart';
 import 'package:jahitkeeun/ui/user/transaksi/keranjang/keranjang_screen.dart';
 import 'package:jahitkeeun/ui/user/transaksi/pesanjasa/pesan_jasa_screen.dart';
@@ -67,6 +68,7 @@ class Jahitkeeun extends StatelessWidget {
         GetPage(name: '/detilPenjahit', page: ()=> const DetilPenjahitScreen()),
         GetPage(name: '/pesanJasa', page: ()=> const PesanJasaScreen()),
         GetPage(name: '/keranjang', page: ()=> const KeranjangScreen()),
+        GetPage(name: '/checkout', page: ()=> const CheckoutScreen()),
         GetPage(name: '/tailorDashboard', page: ()=> const TailorMainScreen()),
       ],
       initialRoute: '/',

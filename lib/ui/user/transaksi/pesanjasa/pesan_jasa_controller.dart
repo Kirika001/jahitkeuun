@@ -7,7 +7,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:jahitkeeun/base/base_controller.dart';
-import 'package:jahitkeeun/data/model/category_bytailorid_model.dart' as category;
+import 'package:jahitkeeun/data/model/category_bytailorid_model.dart'
+as category;
 import 'package:jahitkeeun/data/model/tailor_service_model.dart' as service;
 
 enum DetailViewState {
@@ -18,11 +19,13 @@ enum DetailViewState {
 class PesanJasaController extends BaseController {
   final descController = TextEditingController();
 
-  NumberFormat numberFormat = NumberFormat.currency(
-    locale: "id",
-    symbol: "Rp. ",
-    decimalDigits: 0
-  );
+  // NumberFormat numberFormat = NumberFormat.currency(
+  //   locale: "id",
+  //   symbol: "Rp. ",
+  //   decimalDigits: 0
+  // );
+
+  DateFormat dateFormat = DateFormat("yyyy-MM-dd");
 
   String? selectedItem;
   String? selectedJasa;
@@ -34,23 +37,26 @@ class PesanJasaController extends BaseController {
   category.CategoryBytailoridModel? categoryTailorModel;
   service.TailorServiceModel? serviceTailorModel;
 
-
   List<category.Data1> listCategoryItem = [];
   List<service.Data1> listServiceItem = [];
 
   CurrencyTextInputFormatter formatter =
-      CurrencyTextInputFormatter(decimalDigits: 0, locale: 'id', symbol: 'Rp ');
+  CurrencyTextInputFormatter(decimalDigits: 0, locale: 'id', symbol: 'Rp ');
 
   File? gettedPhoto;
   bool isLoading = false;
   List serviceItems = [];
-  DateTime? selectedDate;
+  DateTime selectedDate = DateTime.now();
 
   int qty = 1;
-  num harga = 0;
+
+  // num harga = 0;
+  String harga = '0';
   String name = Get.arguments["tailorName"];
+
   // List selectedJasa = [];
   int? serviceID;
+  int? itemID = Get.arguments["itemID"];
 
   @override
   void onInit() {
@@ -58,6 +64,9 @@ class PesanJasaController extends BaseController {
     formatter;
     listItem();
     descController.text;
+    if (itemID != 0) {
+      listService(itemID!);
+    }
   }
 
   chanrState(DetailViewState s) {
@@ -73,6 +82,7 @@ class PesanJasaController extends BaseController {
       var categories = await repository.getCategoryTailor(
           storage.getAccessToken() ?? '', Get.arguments['tailorID']);
       categoryTailorModel = categories;
+      listCategoryItem.add(category.Data1(itemId: '0', itemName: 'Pilih Item'));
       listCategoryItem.addAll(categories.data?.data?.toSet().toList() ?? []);
       // selectedItem.value = categoryTailorModel?.data?.data?.first.itemId ?? "";
       // print(
@@ -134,18 +144,30 @@ class PesanJasaController extends BaseController {
   }
 
   addToCart() async {
-    var response = await repository.postAddCart(
-        storage.getAccessToken()!,
-        storage.getCurrentUserId()!,
-        serviceID!,
-        qty,
-        selectedDate.toString(),
-        descController.text,
-        gettedPhoto!);
+    String descriptionText = 'Deskripsi kosong';
+    if (descController.text.isNotEmpty) {
+      descriptionText = descController.text;
+      update();
+    }
 
-    Fluttertoast.showToast(msg: response?.meta?.message ?? 'gagal menambahkan keranjang');
-    if (response?.meta?.status == 'success') {
-      Get.offAllNamed('/keranjang');
+    try {
+      var response = await repository.postAddCart(
+          storage.getAccessToken()!,
+          storage.getCurrentUserId()!,
+          serviceID!,
+          qty,
+          dateFormat.format(selectedDate),
+          descriptionText,
+          gettedPhoto!);
+      Fluttertoast.showToast(
+          msg: response?.meta?.message ?? 'gagal menambahkan keranjang');
+      if (response?.meta?.status == 'success') {
+
+        update();
+        Get.offNamed('/keranjang');
+      }
+    } catch (e) {
+      return e.printError();
     }
   }
 }

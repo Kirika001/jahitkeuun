@@ -5,14 +5,19 @@ import 'package:jahitkeeun/const/temp_img.dart';
 class ItemCategory extends StatelessWidget {
   final String? namaCategory;
   final String? imgCategory;
+  final VoidCallback? onTap;
 
-  const ItemCategory(
-      {Key? key, this.namaCategory = 'Blouse', this.imgCategory = blouseImg})
-      : super(key: key);
+  const ItemCategory({
+    Key? key,
+    this.namaCategory = 'Blouse',
+    this.imgCategory = blouseImg,
+    this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTap,
       leading: Container(
         padding: EdgeInsets.all(8),
         color: darkColor,

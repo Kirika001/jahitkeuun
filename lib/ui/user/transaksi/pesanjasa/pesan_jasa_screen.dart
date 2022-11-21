@@ -24,15 +24,13 @@ class PesanJasaScreen extends StatelessWidget {
               titleTextStyle: titleTextStyle.copyWith(color: darkColor),
               title: Text('Pesan Jasa'),
             ),
-            body: controller.isLoading == false
-                ? Padding(
+            body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: ListView(
                 physics: BouncingScrollPhysics(),
                 children: [
                   Text('\nMemesan Dari', style: subtitleTextStyle),
-                  Text(controller.name,
-                      style: titleTextStyle),
+                  Text(controller.name, style: titleTextStyle),
                   Text('\nItem', style: labelTextStyle),
                   DropdownButtonFormField2(
                     decoration: const InputDecoration(
@@ -41,15 +39,17 @@ class PesanJasaScreen extends StatelessWidget {
                         border: InputBorder.none),
                     dropdownPadding: EdgeInsets.zero,
                     isExpanded: true,
-                    value: controller.selectedItem,
+                    // value: controller.itemID != 0 ? controller.selectedItem = controller.itemID.toString() : controller.selectedItem,
+                    value: controller.selectedItem =
+                        controller.itemID.toString(),
                     hint: Text('Pilih Item'),
-                    items: controller.listCategoryItem.map((item) =>
-                        DropdownMenuItem<String>(
-                          value: item.itemId,
-                          child: Text(
-                              item.itemName.toString() ?? ''),
-                        ))
-                        .toList() ?? [],
+                    items: controller.listCategoryItem
+                        .map((item) => DropdownMenuItem<String>(
+                      value: item.itemId,
+                      child: Text(item.itemName.toString() ?? ''),
+                    ))
+                        .toList() ??
+                        [],
                     // items: [],
                     validator: (value) {
                       if (value == "Pilih Item") {
@@ -63,7 +63,8 @@ class PesanJasaScreen extends StatelessWidget {
                     onChanged: (value) {
                       controller.selectedJasa = null;
                       controller.selectedItem = value.toString();
-                      controller.listService(int.parse(controller.selectedItem.toString()));
+                      controller.listService(
+                          int.parse(controller.selectedItem.toString()));
                       controller.update();
                       // controller.selectedItem.value = value.toString();
                     },
@@ -75,27 +76,31 @@ class PesanJasaScreen extends StatelessWidget {
                   // controller.serviceTailorModel!.data!.data! != null ?
                   DropdownButtonFormField2(
                     decoration: InputDecoration(
-                        fillColor: Colors.transparent,
-                        filled: false,
-                        border: InputBorder.none),
+                      fillColor: Colors.transparent,
+                      filled: false,
+                      border: InputBorder.none,
+                    ),
                     dropdownPadding: EdgeInsets.zero,
                     isExpanded: true,
                     value: controller.selectedJasa,
                     hint: Text('Pilih Jasa'),
-                    items: controller.listServiceItem.map((item) =>
-                        DropdownMenuItem(
-                          value: item.serviceId,
-                          child: Text(item.serviceName.toString() ?? ''),
-                          onTap: () {
-                            if(controller.listServiceItem.isNotEmpty) {
-                              print("harga ${item.servicePrice}");
-                              controller.harga = int.tryParse(item.servicePrice?.toString() ?? "0") ?? 0;
-                              // controller.selectedJasa.value = item.serviceId;
-                              controller.update();
-                            }
-                          },
-                        ))
-                        .toList() ?? [],
+                    items: controller.listServiceItem
+                        .map((item) => DropdownMenuItem(
+                      value: item.serviceId,
+                      child:
+                      Text(item.serviceName.toString() ?? ''),
+                      onTap: () {
+                        if (controller.listServiceItem.isNotEmpty) {
+                          print("harga ${item.servicePrice}");
+                          controller.harga = item.servicePrice!;
+                          // controller.harga = int.tryParse(item.servicePrice?.toString() ?? "0") ?? 0;
+                          // controller.selectedJasa.value = item.serviceId;
+                          controller.update();
+                        }
+                      },
+                    ))
+                        .toList() ??
+                        [],
                     // items: [],
                     validator: (value) {
                       if (value == "Pilih Jasa") {
@@ -120,8 +125,8 @@ class PesanJasaScreen extends StatelessWidget {
                     decoration: InputDecoration(
                         hintText:
                         'Deskripsikan kebutuhan anda dengan detil dan jelas',
-                        contentPadding: EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5)),
+                        contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10, vertical: 5)),
                   ),
                   Text('\nGambar Rancangan atau Referensi',
                       style: labelTextStyle),
@@ -175,7 +180,7 @@ class PesanJasaScreen extends StatelessWidget {
                                 lastDate: DateTime.now()
                                     .add(const Duration(days: 30)))
                                 .then((date) {
-                              controller.selectedDate = date;
+                              controller.selectedDate = date!;
                               controller.update();
                             });
                           },
@@ -208,12 +213,12 @@ class PesanJasaScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 50)
+                  SizedBox(height: 50),
+                  controller.isLoading == true
+                      ? Center(child: CircularProgressIndicator.adaptive())
+                      : Container(),
                 ],
               ),
-            )
-                : Center(
-              child: CircularProgressIndicator.adaptive(),
             ),
             bottomNavigationBar: Container(
               height: 155,
@@ -228,13 +233,20 @@ class PesanJasaScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Harga", style: labelTextStyle),
-                    Text("${controller.numberFormat.format(controller.harga)} ,-",
-                        style: titleTextStyle),
+                    // Text(controller.formatter.format(controller.harga).split('.').first),
+                    Text(
+                      controller.formatter
+                          .format(controller.harga.split('.').first),
+                      style: titleTextStyle,
+                    ),
+                    // Text("${controller.numberFormat.format(controller.harga)} ,-",
+                    //     style: titleTextStyle),
                     CustomFilledButton(
-                      onPressed: () {
-                        controller.addToCart();
-                      },
-                        title: 'Tambah ke Keranjang', color: darkColor)
+                        onPressed: () {
+                          controller.addToCart();
+                        },
+                        title: 'Tambah ke Keranjang',
+                        color: darkColor)
                   ],
                 ),
               ),

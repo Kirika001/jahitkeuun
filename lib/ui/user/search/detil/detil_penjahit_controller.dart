@@ -40,7 +40,7 @@ class DetilPenjahitController extends BaseController {
     var contact = "+62$nomor";
     var androidUrl = "whatsapp://send?phone=$contact&text=Hi, I need some help";
     var iosUrl =
-        "https://wa.me/$contact?text=${Uri.parse('Hi, I need some help')}";
+        "https://wa.me/$contact?text=${Uri.parse('Halo! Saya Mau Konsultasi untuk membuat pakaian')}";
 
     try {
       if (Platform.isIOS) {

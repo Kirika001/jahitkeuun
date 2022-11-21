@@ -71,7 +71,7 @@ class ProfilScreen extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          Text('Nama User', style: titleTextStyle),
+                          Text(controller.namaUser ?? 'Nama', style: titleTextStyle),
                           CustomFilledButton(
                             color: Colors.transparent,
                             width: 200,
@@ -135,20 +135,26 @@ class ProfilScreen extends StatelessWidget {
                         title: Text('Telpon', style: listTitleTextStyle),
                         leading: Icon(Icons.phone_android),
                         trailing:
-                        Text('08x-xxxx-xxxx', style: subtitleTextStyle),
+                        Text(controller.kontakUser ?? '08x-xxxx-xxxx', style: subtitleTextStyle),
                       ),
                       ListTile(
                         title: Text('Email', style: listTitleTextStyle),
                         leading: Icon(Icons.mail),
                         trailing:
-                        Text('user@mail.com', style: subtitleTextStyle),
+                        Text(controller.emailUser ?? 'user@mail.com', style: subtitleTextStyle),
                       ),
                       ListTile(
-                        title: Text('Alamat', style: listTitleTextStyle),
-                        leading: Icon(Icons.location_on),
-                        trailing: Text('Alamat', style: subtitleTextStyle),
-                        onTap: () => Get.toNamed('/alamat'),
+                        title: Text('Role', style: listTitleTextStyle),
+                        leading: Icon(Icons.person),
+                        trailing:
+                        Text(controller.roleUser ?? 'role', style: subtitleTextStyle),
                       ),
+                      // ListTile(
+                      //   title: Text('Alamat', style: listTitleTextStyle),
+                      //   leading: Icon(Icons.location_on),
+                      //   trailing: Text('Alamat', style: subtitleTextStyle),
+                      //   onTap: () => Get.toNamed('/alamat'),
+                      // ),
                       ListTile(
                         title: Text(
                             'Ganti Password', style: listTitleTextStyle),

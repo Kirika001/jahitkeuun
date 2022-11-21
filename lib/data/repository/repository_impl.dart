@@ -7,6 +7,7 @@ import 'package:jahitkeeun/data/model/add_to_cart_model.dart';
 import 'package:jahitkeeun/data/model/category_bytailorid_model.dart';
 import 'package:jahitkeeun/data/model/category_model.dart';
 import 'package:jahitkeeun/data/model/current_address_model.dart';
+import 'package:jahitkeeun/data/model/delete_cart_model.dart';
 import 'package:jahitkeeun/data/model/login_model.dart';
 import 'package:jahitkeeun/data/model/logout_model.dart';
 import 'package:jahitkeeun/data/model/register_model.dart';
@@ -14,6 +15,8 @@ import 'package:jahitkeeun/data/model/tailor_byitemid_model.dart';
 import 'package:jahitkeeun/data/model/tailor_detail_model.dart';
 import 'package:jahitkeeun/data/model/tailor_model.dart';
 import 'package:jahitkeeun/data/model/tailor_service_model.dart';
+import 'package:jahitkeeun/data/model/update_qty_cart_model.dart';
+import 'package:jahitkeeun/data/model/user_cart_model.dart';
 import 'package:jahitkeeun/data/network_core.dart';
 import 'package:jahitkeeun/data/repository/repository.dart';
 
@@ -68,7 +71,7 @@ class RepositoryImpl implements Repository {
     try {
       var response = await network.dio.get("/sectionitem",
           options: Options(headers: {
-            "Accept": "applicatin/json",
+            "Accept": "application/json",
             "Authorization": "Bearer $token"
           }));
       return CategoryModel.fromJson(response.data);
@@ -86,7 +89,7 @@ class RepositoryImpl implements Repository {
     try {
       var response = await network.dio.get("/taylor",
           options: Options(headers: {
-            "Accept": "applicatin/json",
+            "Accept": "application/json",
             "Authorization": "Bearer $token"
           }));
       return TailorModel.fromJson(response.data);
@@ -102,7 +105,7 @@ class RepositoryImpl implements Repository {
     try {
       var response = await network.dio.get("/sectionitemalamat/$userID",
           options: Options(headers: {
-            "Accept": "applicatin/json",
+            "Accept": "application/json",
             "Authorization": "Bearer $token"
           }));
       return CurrentAddressModel.fromJson(response.data);
@@ -121,7 +124,7 @@ class RepositoryImpl implements Repository {
     try {
       var response = await network.dio.get("/sectionitem/$itemID",
           options: Options(headers: {
-            "Accept": "applicatin/json",
+            "Accept": "application/json",
             "Authorization": "Bearer $token"
           }));
       return TailorByitemidModel.fromJson(response.data);
@@ -136,7 +139,7 @@ class RepositoryImpl implements Repository {
     try {
       var response = await network.dio.get("/taylor/$id",
           options: Options(headers: {
-            "Accept": "applicatin/json",
+            "Accept": "application/json",
             "Authorization": "Bearer $token"
           }));
       return TailorDetailModel.fromJson(response.data);
@@ -152,7 +155,7 @@ class RepositoryImpl implements Repository {
     try {
       var response = await network.dio.get("/sectionitem/taylorId/$id",
           options: Options(headers: {
-            "Accept": "applicatin/json",
+            "Accept": "application/json",
             "Authorization": "Bearer $token"
           }));
       return CategoryBytailoridModel.fromJson(response.data);
@@ -169,7 +172,7 @@ class RepositoryImpl implements Repository {
       var response = await network.dio.get(
           "/sectionitem/taylorId/$tailorID/itemId/$itemID",
           options: Options(headers: {
-            "Accept": "applicatin/json",
+            "Accept": "application/json",
             "Authorization": "Bearer $token"
           }));
       return TailorServiceModel.fromJson(response.data);
@@ -199,7 +202,7 @@ class RepositoryImpl implements Repository {
       var response = await network.dio.post("/sectionitem",
           data: formData,
           options: Options(headers: {
-            "Accept": "applicatin/json",
+            "Accept": "application/json",
             "Authorization": "Bearer $token",
             "Content-Type": "multipart/form-data"
           }));
@@ -208,6 +211,54 @@ class RepositoryImpl implements Repository {
     } on DioError catch (e) {
       print(e.response?.data);
       return AddToCartModel.fromJson(e.response?.data);
+    }
+  }
+
+
+  @override
+  FutureOr<UserCartModel?> getUserCart(String token, int userID) async {
+    try {
+      var response = await network.dio.get("/sectionitem/userId/$userID",
+          options: Options(headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer $token"
+          }));
+      return UserCartModel.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.error);
+      return e.error;
+    }
+  }
+
+  @override
+  FutureOr<DeleteCartModel?> deleteUserCart(String token, int userID, int serviceID) async {
+    try {
+      var response = await network.dio.delete("/sectionitem/userId/$userID/service/$serviceID",
+          options: Options(headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer $token"
+          }));
+      return DeleteCartModel.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.error);
+      return e.error;
+    }
+  }
+
+  @override
+  FutureOr<UpdateQtyCartModel?> updateQtyCart(String token, int userID, int serviceID, String qty) async {
+    try {
+      var response = await network.dio.post("/sectionitem/userId/$userID/service/$serviceID",
+          data: {"quantity": qty},
+          options: Options(
+              headers: {
+                "Accept": "application/json",
+                "Authorization": "Bearer $token"
+              }));
+      return UpdateQtyCartModel.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.error);
+      return e.error;
     }
   }
 }

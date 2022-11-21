@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:jahitkeeun/const/color.dart';
 import 'package:jahitkeeun/const/temp_img.dart';
 import 'package:jahitkeeun/const/textstyle.dart';
+
+NumberFormat numberFormat =
+NumberFormat.currency(locale: "id", symbol: "Rp. ", decimalDigits: 0);
 
 class ItemProduct extends StatelessWidget {
   final String? namaItem;
   final String? namaJasa;
   final int? qty;
   final int? subTotal;
+  final String? itemImage;
+
 
   const ItemProduct({
     Key? key,
@@ -15,12 +21,34 @@ class ItemProduct extends StatelessWidget {
     this.namaJasa = 'Jahit Exclude Bahan',
     this.qty = 1,
     this.subTotal = 300000,
+    this.itemImage = blouseImg,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Image.network(blouseImg),
+      leading: Container(
+        padding: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          color: darkColor,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Image.network(
+          itemImage!,
+          loadingBuilder: (BuildContext context, Widget child,
+              ImageChunkEvent? loadingProgress) {
+            if (loadingProgress == null) {
+              return child;
+            }
+            return CircularProgressIndicator(
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded /
+                  loadingProgress.expectedTotalBytes!
+                  : null,
+            );
+          },
+        ),
+      ),
       title: Text(
         namaItem!,
         style: labelTextStyle,
@@ -36,7 +64,7 @@ class ItemProduct extends StatelessWidget {
                 text: 'x ${qty}',
                 style: mainTextStyle.copyWith(color: darkColor)),
             TextSpan(
-                text: '\nRp.${subTotal},-',
+                text: '\n${numberFormat.format((subTotal! * qty!))},-',
                 style: labelTextStyle.copyWith(color: darkColor))
           ])),
     );

@@ -74,11 +74,11 @@ class HomeController extends BaseController {
       var tailor = await repository.getTailor(storage.getAccessToken() ?? '', page);
       tailorModel = tailor;
 
-      final isLastPage = tailorModel!.data!.total! < tailorModel!.data!.perPage!;
+      final isLastPage = tailorModel!.data!.currentPage! < tailorModel!.data!.lastPage!;
       if (isLastPage){
         pagingController.appendLastPage(tailorModel!.data!.data!);
       } else  {
-        final nextPageKey = page + tailorModel!.data!.data!.length;
+        final nextPageKey = page + 1;
         pagingController.appendPage(tailorModel!.data!.data!, nextPageKey);
       }
       update();

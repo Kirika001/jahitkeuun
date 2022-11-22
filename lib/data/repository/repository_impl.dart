@@ -7,6 +7,7 @@ import 'package:jahitkeeun/data/model/add_to_cart_model.dart';
 import 'package:jahitkeeun/data/model/category_bytailorid_model.dart';
 import 'package:jahitkeeun/data/model/category_model.dart';
 import 'package:jahitkeeun/data/model/checkout_model.dart';
+import 'package:jahitkeeun/data/model/client_order_model.dart';
 import 'package:jahitkeeun/data/model/current_address_model.dart';
 import 'package:jahitkeeun/data/model/delete_cart_model.dart';
 import 'package:jahitkeeun/data/model/login_model.dart';
@@ -303,6 +304,21 @@ class RepositoryImpl implements Repository {
             "Authorization": "Bearer $token"
           }));
       return CheckoutModel.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.error);
+      return e.error;
+    }
+  }
+
+  @override
+  FutureOr<ClientOrderModel?> getClientOrder(String token, int userID) async {
+    try {
+      var response = await network.dio.get("/dashboardclientorder/$userID",
+          options: Options(headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer $token"
+          }));
+      return ClientOrderModel.fromJson(response.data);
     } on DioError catch (e) {
       print(e.error);
       return e.error;

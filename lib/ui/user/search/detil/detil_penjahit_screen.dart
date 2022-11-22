@@ -20,6 +20,9 @@ class DetilPenjahitScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: Text('Detil Penjahit'),
+              actions: [
+                IconButton(onPressed: ()=> Get.toNamed('/keranjang'), icon: Icon(Icons.shopping_cart))
+              ],
             ),
             body: controller.isLoading == false
                 ? SingleChildScrollView(

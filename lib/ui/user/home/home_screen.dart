@@ -1,12 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jahitkeeun/const/temp_img.dart';
-import 'package:jahitkeeun/const/color.dart';
 import 'package:jahitkeeun/const/textstyle.dart';
 import 'package:jahitkeeun/reusable/card_category.dart';
 import 'package:jahitkeeun/reusable/card_tailor.dart';
 import 'package:jahitkeeun/ui/user/home/home_controller.dart';
+import 'package:jahitkeeun/data/model/tailor_model.dart' as tailor;
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               SafeArea(child: Container()),
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.only(left: 10.0, right: 10, top: 10),
                 child: Row(
                   children: [
                     GestureDetector(
@@ -52,21 +53,22 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Center(
                     child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
                       child: Column(
                         children: [
-                          controller.currentAddress != null ? ListTile(
+                          // controller.currentAddress != null ?
+                          ListTile(
                             onTap: () => Get.toNamed('/alamat'),
                             leading: Icon(Icons.location_on),
                             title: Text("Dikirim ke/Dijemput di:"),
                             subtitle: Text(
-                              controller
-                                  .currentAddress?.data?[0].alamat ??
-                                  '',
+                              controller.currentAddress?.data?[0].alamat ?? 'Memuat...',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                             trailing: const Icon(Icons.arrow_right),
-                          ) : const Center(child: CircularProgressIndicator.adaptive()),
+                          ),
+                          // : const Center(child: CircularProgressIndicator.adaptive()),
                           CarouselSlider(
                             items: controller.image,
                             options: CarouselOptions(
@@ -75,66 +77,126 @@ class HomeScreen extends StatelessWidget {
                                 enableInfiniteScroll: false,
                                 // height: 200,
                                 onPageChanged: (index, reason) =>
-                                controller.currentIndex),
-                            carouselController:
-                            controller.carouselController,
+                                    controller.currentIndex),
+                            carouselController: controller.carouselController,
                           ),
                           ListTile(
-                            title: Text('Pilihan jahit'),
-                            trailing: Text('lihat semua',
-                                style: labelTextStyle.copyWith(
-                                    color: secondaryColor, fontSize: 15)),
+                            title:
+                                Text('\nPilihan jahit', style: titleTextStyle),
+                            // trailing: Text('lihat semua',
+                            //     style: labelTextStyle.copyWith(
+                            //         color: secondaryColor, fontSize: 15)),
                           ),
-                          controller.categoryModel != null ? SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: SizedBox(
-                              height: 100,
-                              child: Row(
-                                children:
-                                controller.categoryModel!.data!.data!
-                                    .map((e) => CategoryCard(
-                                  img:
-                                  '$categoryImg/${e.itemPhoto}',
-                                  title: e.itemName,
-                                  onTap: () => Get.toNamed(
-                                    '/listPenjahit',
-                                    arguments:
-                                    int.parse(e.itemId!),
-                                    // arguments: 1,
+                          controller.categoryModel != null
+                              ? SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: SizedBox(
+                                    height: 100,
+                                    child: Row(
+                                      children:
+                                          controller.categoryModel!.data!.data!
+                                              .map((e) => CategoryCard(
+                                                    img:
+                                                        '$categoryImg/${e.itemPhoto}',
+                                                    title: e.itemName,
+                                                    onTap: () => Get.toNamed(
+                                                      '/listPenjahit',
+                                                      arguments:
+                                                          int.parse(e.itemId!),
+                                                      // arguments: 1,
+                                                    ),
+                                                  ))
+                                              .toList(),
+                                    ),
                                   ),
-                                ))
-                                    .toList(),
-                              ),
-                            ),
-                          ) : const Center(child: CircularProgressIndicator.adaptive(),),
+                                )
+                              : const Center(
+                                  child: CircularProgressIndicator.adaptive(),
+                                ),
                           ListTile(
-                            title: Text('Penjahit Kami'),
-                            trailing: Text(
-                              'Sort by',
-                              style: labelTextStyle.copyWith(
-                                  color: secondaryColor, fontSize: 15),
-                            ),
+                            title:
+                                Text('\nPenjahit Kami', style: titleTextStyle),
+                            // trailing: Text(
+                            //   'Sort by',
+                            //   style: labelTextStyle.copyWith(
+                            //       color: secondaryColor, fontSize: 15),
+                            // ),
                           ),
-                          controller.tailorModel != null ? Column(
-                            children: controller.tailorModel!.data?.data
-                                ?.map((e) => TailorCard(
-                              idPenjahit: int.parse(e.taylorId ?? "0"),
-                              namaPenjahit:
-                              e.taylorName!.capitalizeFirst,
-                              // e.taylorPhoto,
-                              lokasiPenjahit:
-                              e.districtName!.capitalizeFirst,
-                              rating:
-                              double.parse(e.taylorRating!),
-                              totalOrder: int.parse(
-                                  e.taylorComtrans ?? '0'),
-                              fotoProfil: e.taylorPhoto !=
-                                  'avatar.png'
-                                  ? '$fotoProfil/${e.taylorPhoto}'
-                                  : profilImg,
-                            ))
-                                .toList() ?? [],
-                          ) : const Center(child: CircularProgressIndicator.adaptive(),)
+                          controller.tailorModel != null
+                              // ? PagedListView(
+                              //     pagingController: controller.pagingController,
+                              //     builderDelegate:
+                              //         PagedChildBuilderDelegate<tailor.Data2?>(
+                              //       itemBuilder: (context, item, index) {
+                              //         return TailorCard(
+                              //           idPenjahit: int.parse(controller
+                              //                   .tailorModel
+                              //                   ?.data
+                              //                   ?.data?[index]
+                              //                   .taylorId ??
+                              //               "0"),
+                              //           namaPenjahit: controller
+                              //               .tailorModel
+                              //               ?.data
+                              //               ?.data?[index]
+                              //               .taylorName!
+                              //               .capitalizeFirst,
+                              //           // e.taylorPhoto,
+                              //           lokasiPenjahit: controller
+                              //               .tailorModel
+                              //               ?.data
+                              //               ?.data?[index]
+                              //               .districtName!
+                              //               .capitalizeFirst,
+                              //           rating: double.parse(controller
+                              //                   .tailorModel
+                              //                   ?.data
+                              //                   ?.data?[index]
+                              //                   .taylorRating ??
+                              //               '0'),
+                              //           totalOrder: int.parse(controller
+                              //                   .tailorModel
+                              //                   ?.data
+                              //                   ?.data?[index]
+                              //                   .taylorComtrans ??
+                              //               '0'),
+                              //           fotoProfil: controller
+                              //                       .tailorModel
+                              //                       ?.data
+                              //                       ?.data?[index]
+                              //                       .taylorPhoto !=
+                              //                   'avatar.png'
+                              //               ? '$fotoProfil/${controller.tailorModel?.data?.data?[index].taylorPhoto}'
+                              //               : profilImg,
+                              //         );
+                              //       },
+                              //     ),
+                              //   )
+                              ? Column(
+                                  children: controller.tailorModel!.data?.data
+                                          ?.map((e) => TailorCard(
+                                                idPenjahit: int.parse(
+                                                    e.taylorId ?? "0"),
+                                                namaPenjahit: e.taylorName!
+                                                    .capitalizeFirst,
+                                                // e.taylorPhoto,
+                                                lokasiPenjahit: e.districtName!
+                                                    .capitalizeFirst,
+                                                rating: double.parse(
+                                                    e.taylorRating!),
+                                                totalOrder: int.parse(
+                                                    e.taylorComtrans ?? '0'),
+                                                fotoProfil: e.taylorPhoto !=
+                                                        'avatar.png'
+                                                    ? '$fotoProfil/${e.taylorPhoto}'
+                                                    : profilImg,
+                                              ))
+                                          .toList() ??
+                                      [],
+                                )
+                              : const Center(
+                                  child: CircularProgressIndicator.adaptive(),
+                                )
                         ],
                       ),
                     ),

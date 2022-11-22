@@ -56,6 +56,8 @@ class LoginController extends BaseController {
       }
     } catch (e) {
       isLoading = false;
+      update();
+      print ('errornya :  ${e}');
       Fluttertoast.showToast(
           msg: loginModel?.meta?.message ?? "Login Gagal");
       // Fluttertoast.showToast(msg: e.toString());

@@ -64,7 +64,7 @@ class StorageCore {
     try {
       Map<String, dynamic> data = storage.getItem('auth_result');
       LoginModel auth = LoginModel.fromJson(data);
-      return auth.data?.client?.id;
+      return int.parse(auth.data?.client?.userId ?? '');
     } catch (e) {
       debugPrint("Error while load user_id: $e");
       return 0;

@@ -6,11 +6,13 @@ import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:jahitkeeun/data/model/add_to_cart_model.dart';
 import 'package:jahitkeeun/data/model/category_bytailorid_model.dart';
 import 'package:jahitkeeun/data/model/category_model.dart';
+import 'package:jahitkeeun/data/model/checkout_model.dart';
 import 'package:jahitkeeun/data/model/current_address_model.dart';
 import 'package:jahitkeeun/data/model/delete_cart_model.dart';
 import 'package:jahitkeeun/data/model/login_model.dart';
 import 'package:jahitkeeun/data/model/logout_model.dart';
 import 'package:jahitkeeun/data/model/register_model.dart';
+import 'package:jahitkeeun/data/model/search_tailor_model.dart';
 import 'package:jahitkeeun/data/model/tailor_byitemid_model.dart';
 import 'package:jahitkeeun/data/model/tailor_detail_model.dart';
 import 'package:jahitkeeun/data/model/tailor_model.dart';
@@ -45,8 +47,9 @@ class RepositoryImpl implements Repository {
       print(response.data);
       return LoginModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.response?.data);
-      return LoginModel.fromJson(e.response?.data);
+      print("error login : ${e.response?.data}");
+      // print("error login : ${LoginModel.fromJson(e?.response?.data)}");
+      return e.response?.data!;
     }
   }
 
@@ -85,9 +88,10 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  FutureOr<TailorModel?> getTailor(String token) async {
+  FutureOr<TailorModel?> getTailor(String token, int page) async {
     try {
       var response = await network.dio.get("/taylor",
+          queryParameters: {"page": page},
           options: Options(headers: {
             "Accept": "application/json",
             "Authorization": "Bearer $token"
@@ -184,19 +188,20 @@ class RepositoryImpl implements Repository {
 
   @override
   FutureOr<AddToCartModel?> postAddCart(String token, int userID, int serviceID,
-      int qty, String pickup,String desc, File photo) async {
+      int qty, String pickup, String desc, File photo) async {
     try {
       var formData = FormData.fromMap({
         "user_id": userID,
         "service_id": serviceID,
         "quantity": qty,
         "pickup": pickup,
-        "desc" : desc
+        "desc": desc
       });
 
       if (photo != null) {
-        formData.files.addAll(
-            [MapEntry("photoClient1", await MultipartFile.fromFile(photo.path))]);
+        formData.files.addAll([
+          MapEntry("photoClient1", await MultipartFile.fromFile(photo.path))
+        ]);
       }
 
       var response = await network.dio.post("/sectionitem",
@@ -214,7 +219,6 @@ class RepositoryImpl implements Repository {
     }
   }
 
-
   @override
   FutureOr<UserCartModel?> getUserCart(String token, int userID) async {
     try {
@@ -225,15 +229,17 @@ class RepositoryImpl implements Repository {
           }));
       return UserCartModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.error);
-      return e.error;
+      print('errornya : ${e.response?.data![1]}');
+      return e.response?.data!;
     }
   }
 
   @override
-  FutureOr<DeleteCartModel?> deleteUserCart(String token, int userID, int serviceID) async {
+  FutureOr<DeleteCartModel?> deleteUserCart(
+      String token, int userID, int serviceID) async {
     try {
-      var response = await network.dio.delete("/sectionitem/userId/$userID/service/$serviceID",
+      var response = await network.dio.delete(
+          "/sectionitem/userId/$userID/service/$serviceID",
           options: Options(headers: {
             "Accept": "application/json",
             "Authorization": "Bearer $token"
@@ -246,16 +252,57 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  FutureOr<UpdateQtyCartModel?> updateQtyCart(String token, int userID, int serviceID, String qty) async {
+  FutureOr<UpdateQtyCartModel?> updateQtyCart(
+      String token, int userID, int serviceID, String qty) async {
     try {
-      var response = await network.dio.post("/sectionitem/userId/$userID/service/$serviceID",
+      var response = await network.dio.post(
+          "/sectionitem/userId/$userID/service/$serviceID",
           data: {"quantity": qty},
-          options: Options(
-              headers: {
-                "Accept": "application/json",
-                "Authorization": "Bearer $token"
-              }));
+          options: Options(headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer $token"
+          }));
       return UpdateQtyCartModel.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.error);
+      return e.error;
+    }
+  }
+
+  @override
+  FutureOr<SearchTailorModel?> searchTailor(
+      String token, String searchName) async {
+    try {
+      var response = await network.dio.get("/search/$searchName",
+          options: Options(headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer $token"
+          }));
+      return SearchTailorModel.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.error);
+      return e.error;
+    }
+  }
+
+  @override
+  FutureOr<CheckoutModel?> postCheckout(
+      String token, int userID, int amount, String userAddress) async {
+    try {
+      var response = await network.dio.post("/sectionitem/checkout",
+          data: {
+            "user_id": userID,
+            "amount": amount,
+            "address": userAddress,
+            "deliveries_id": 1,
+            "payment_method_id": 1,
+            "shipping_method_id": 1
+          },
+          options: Options(headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer $token"
+          }));
+      return CheckoutModel.fromJson(response.data);
     } on DioError catch (e) {
       print(e.error);
       return e.error;

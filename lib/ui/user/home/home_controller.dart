@@ -10,10 +10,10 @@ import 'package:jahitkeeun/data/model/tailor_model.dart';
 
 class HomeController extends BaseController {
   final PagingController<int, Data2> pagingController =
-  PagingController(firstPageKey: 0);
+  PagingController(firstPageKey: 1);
 
   CategoryModel? categoryModel;
-  TailorModel? tailorModel;
+  // TailorModel? tailorModel;
   CurrentAddressModel? currentAddress;
 
   List<Widget> image = [
@@ -32,7 +32,7 @@ class HomeController extends BaseController {
     Future.wait([
       categoryList(),
       fetchAddress(),
-      fetchTaylor(1)
+      // fetchTaylor(1)
     ]);
 
     pagingController.addPageRequestListener((pageKey) {
@@ -72,14 +72,15 @@ class HomeController extends BaseController {
   Future<void> fetchTaylor(int page) async {
     try {
       var tailor = await repository.getTailor(storage.getAccessToken() ?? '', page);
-      tailorModel = tailor;
+      // tailorModel = tailor;
 
-      final isLastPage = tailorModel!.data!.currentPage! < tailorModel!.data!.lastPage!;
+      var isLastPage = page >= tailor!.data!.lastPage!;
+      debugPrint("isLastPage $isLastPage, ${tailor.data?.lastPage!} $page}");
       if (isLastPage){
-        pagingController.appendLastPage(tailorModel!.data!.data!);
+        pagingController.appendLastPage(tailor.data!.data!);
       } else  {
         final nextPageKey = page + 1;
-        pagingController.appendPage(tailorModel!.data!.data!, nextPageKey);
+        pagingController.appendPage(tailor.data!.data!, nextPageKey);
       }
       update();
     } on DioError catch(e) {

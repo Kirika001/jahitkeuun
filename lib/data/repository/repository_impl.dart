@@ -22,6 +22,7 @@ import 'package:jahitkeeun/data/model/update_qty_cart_model.dart';
 import 'package:jahitkeeun/data/model/user_cart_model.dart';
 import 'package:jahitkeeun/data/network_core.dart';
 import 'package:jahitkeeun/data/repository/repository.dart';
+import 'package:jahitkeeun/ui/auth/login/login_screen.dart';
 
 class RepositoryImpl implements Repository {
   final network = Get.find<NetworkCore>();
@@ -115,11 +116,12 @@ class RepositoryImpl implements Repository {
           }));
       return CurrentAddressModel.fromJson(response.data);
     } on DioError catch (e) {
+
       if (e.response!.statusCode == 401) {
         Get.offAllNamed('/login');
       }
       print(e.error);
-      return e.error;
+      return CurrentAddressModel.fromJson(e.response?.data);
     }
   }
 

@@ -122,26 +122,20 @@ class HomeScreen extends StatelessWidget {
                 pagingController: controller.pagingController,
                 builderDelegate: PagedChildBuilderDelegate<tailor.Data2?>(
                   itemBuilder: (context, item, index) {
-
                     return TailorCard(
                       idPenjahit: int.parse(
-                          controller.tailorModel?.data?.data?[index].taylorId ??
+                          item?.taylorId ??
                               "0"),
-                      namaPenjahit: controller.tailorModel?.data?.data?[index]
-                          .taylorName!.capitalizeFirst,
+                      namaPenjahit: item?.taylorName!.capitalizeFirst,
                       // e.taylorPhoto,
-                      lokasiPenjahit: controller.tailorModel?.data?.data?[index]
-                          .districtName!.capitalizeFirst,
-                      rating: double.parse(controller
-                              .tailorModel?.data?.data?[index].taylorRating ??
+                      lokasiPenjahit: item?.districtName!.capitalizeFirst,
+                      rating: double.parse(item?.taylorRating ??
                           '0'),
-                      totalOrder: int.parse(controller
-                              .tailorModel?.data?.data?[index].taylorComtrans ??
+                      totalOrder: int.parse(item?.taylorComtrans ??
                           '0'),
-                      fotoProfil: controller.tailorModel?.data?.data?[index]
-                                  .taylorPhoto !=
+                      fotoProfil: item?.taylorPhoto !=
                               'avatar.png'
-                          ? '$fotoProfil/${controller.tailorModel?.data?.data?[index].taylorPhoto}'
+                          ? '$fotoProfil/${item?.taylorPhoto}'
                           : profilImg,
                     );
                   },

@@ -1,11 +1,11 @@
 
-class ClientOrderModel {
+class ShippingModel {
   Meta? meta;
   Data? data;
 
-  ClientOrderModel({this.meta, this.data});
+  ShippingModel({this.meta, this.data});
 
-  ClientOrderModel.fromJson(Map<String, dynamic> json) {
+  ShippingModel.fromJson(Map<String, dynamic> json) {
     meta = json["meta"] == null ? null : Meta.fromJson(json["meta"]);
     data = json["data"] == null ? null : Data.fromJson(json["data"]);
   }
@@ -74,59 +74,23 @@ class Data {
 }
 
 class Data1 {
-  String? id;
-  String? invoice;
-  String? tglOrder;
-  String? namapembeli;
-  String? alamat;
-  String? jasa;
-  String? namaitem;
-  String? quantity;
-  String? price;
-  String? orderStatus;
-  String? paymentStatus;
-  String? pickup;
-  String? namapenjahit;
-  String? photoClient1;
-  String? photoTaylor1;
+  String? shppingMethodId;
+  String? shippingMethodName;
+  String? shippingMethodPhoto;
 
-  Data1({this.id, this.invoice, this.tglOrder, this.namapembeli, this.alamat, this.jasa, this.namaitem, this.quantity, this.price, this.orderStatus, this.paymentStatus, this.pickup, this.namapenjahit, this.photoClient1, this.photoTaylor1});
+  Data1({this.shppingMethodId, this.shippingMethodName, this.shippingMethodPhoto});
 
   Data1.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    invoice = json["invoice"];
-    tglOrder = json["tgl_order"];
-    namapembeli = json["namapembeli"];
-    alamat = json["alamat"];
-    jasa = json["jasa"];
-    namaitem = json["namaitem"];
-    quantity = json["quantity"];
-    price = json["price"];
-    orderStatus = json["orderStatus"];
-    paymentStatus = json["paymentStatus"];
-    pickup = json["pickup"];
-    namapenjahit = json["namapenjahit"];
-    photoClient1 = json["photoClient1"];
-    photoTaylor1 = json["photoTaylor1"];
+    shppingMethodId = json["shpping_method_id"];
+    shippingMethodName = json["shipping_method_name"];
+    shippingMethodPhoto = json["shipping_method_photo"];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["id"] = id;
-    _data["invoice"] = invoice;
-    _data["tgl_order"] = tglOrder;
-    _data["namapembeli"] = namapembeli;
-    _data["alamat"] = alamat;
-    _data["jasa"] = jasa;
-    _data["namaitem"] = namaitem;
-    _data["quantity"] = quantity;
-    _data["price"] = price;
-    _data["orderStatus"] = orderStatus;
-    _data["paymentStatus"] = paymentStatus;
-    _data["pickup"] = pickup;
-    _data["namapenjahit"] = namapenjahit;
-    _data["photoClient1"] = photoClient1;
-    _data["photoTaylor1"] = photoTaylor1;
+    _data["shpping_method_id"] = shppingMethodId;
+    _data["shipping_method_name"] = shippingMethodName;
+    _data["shipping_method_photo"] = shippingMethodPhoto;
     return _data;
   }
 }

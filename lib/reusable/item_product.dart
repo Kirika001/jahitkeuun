@@ -47,6 +47,10 @@ class ItemProduct extends StatelessWidget {
                   : null,
             );
           },
+          errorBuilder: (context, error, stackTrace) {
+            return Image.network(
+              blouseImg, fit: BoxFit.cover,);
+          },
         ),
       ),
       title: Text(
@@ -64,7 +68,7 @@ class ItemProduct extends StatelessWidget {
                 text: 'x ${qty}',
                 style: mainTextStyle.copyWith(color: darkColor)),
             TextSpan(
-                text: '\n${numberFormat.format((subTotal! * qty!))},-',
+                text: '\n${numberFormat.format((subTotal!))},-',
                 style: labelTextStyle.copyWith(color: darkColor))
           ])),
     );

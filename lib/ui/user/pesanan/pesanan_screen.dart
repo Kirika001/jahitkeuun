@@ -129,14 +129,22 @@ class _PesananScreenState extends State<PesananScreen>
                               .clientOrderModel!.data!.data!
                               .map((e) =>
                               PesananCard(
+                                idPesanan: int.parse(e.id ?? '0'),
                                 statusPesanan: e.paymentStatus,
                                 namaPenjahit: e.namapenjahit,
                                 invoice: '${e.tglOrder}',
-                                // itemImg: '$categoryImg/${e.}',
-                                jumlahItem: int.parse(e.quantity!),
-                                grandTotal: int.parse(e.price?.split('.').first ?? ''),
+                                itemImg:
+                                '$fotoClient/${e.photoClient1}',
+                                jumlahItem:
+                                int.parse(e.quantity!),
+                                grandTotal: int.parse(
+                                    e.price
+                                        ?.split('.')
+                                        .first ??
+                                        ''),
                                 namaJasa: e.jasa,
-                                namaItem: '',
+                                namaItem: e.namaitem ??
+                                    'nama item gk muncul',
                               ))
                               .toList()),
                     )
@@ -154,7 +162,21 @@ class _PesananScreenState extends State<PesananScreen>
                               'BELUM BAYAR')
                               .map((e) =>
                               PesananCard(
+                                idPesanan: int.parse(e.id ?? '0'),
                                 statusPesanan: e.paymentStatus,
+                                namaPenjahit: e.namapenjahit,
+                                invoice: '${e.tglOrder}',
+                                // itemImg: '$categoryImg/${e.}',
+                                jumlahItem:
+                                int.parse(e.quantity!),
+                                grandTotal: int.parse(
+                                    e.price
+                                        ?.split('.')
+                                        .first ??
+                                        ''),
+                                namaJasa: e.jasa,
+                                namaItem: e.namaitem ??
+                                    'nama item gk muncul',
                               ))
                               .toList()),
                     )
@@ -163,17 +185,31 @@ class _PesananScreenState extends State<PesananScreen>
                     ),
                     controller.clientOrderModel!.data!.data!
                         .where((element) =>
-                    element.paymentStatus == 'LUNAS')
+                    element.paymentStatus == 'KONFIMASI PENJAHIT')
                         .isNotEmpty
                         ? SingleChildScrollView(
                       child: Column(
                           children: controller
                               .clientOrderModel!.data!.data!
                               .where((element) =>
-                          element.paymentStatus == 'LUNAS')
+                          element.paymentStatus == 'KONFIMASI PENJAHIT')
                               .map((e) =>
                               PesananCard(
+                                idPesanan: int.parse(e.id ?? '0'),
                                 statusPesanan: e.paymentStatus,
+                                namaPenjahit: e.namapenjahit,
+                                invoice: '${e.tglOrder}',
+                                // itemImg: '$categoryImg/${e.}',
+                                jumlahItem:
+                                int.parse(e.quantity!),
+                                grandTotal: int.parse(
+                                    e.price
+                                        ?.split('.')
+                                        .first ??
+                                        ''),
+                                namaJasa: e.jasa,
+                                namaItem: e.namaitem ??
+                                    'nama item gk muncul',
                               ))
                               .toList()),
                     )
@@ -194,7 +230,8 @@ class _PesananScreenState extends State<PesananScreen>
                             'MENUNGGU PICKUP')
                             .map((e) =>
                             PesananCard(
-                              statusPesanan: e.paymentStatus,
+                              idPesanan: int.parse(e.id ?? '0'),
+                                statusPesanan: e.paymentStatus,
                             ))
                             .toList(),
                       ),
@@ -214,7 +251,21 @@ class _PesananScreenState extends State<PesananScreen>
                               'DALAM PENGAMBILAN')
                               .map((e) =>
                               PesananCard(
+                                idPesanan: int.parse(e.id ?? '0'),
                                 statusPesanan: e.paymentStatus,
+                                namaPenjahit: e.namapenjahit,
+                                invoice: '${e.tglOrder}',
+                                // itemImg: '$categoryImg/${e.}',
+                                jumlahItem:
+                                int.parse(e.quantity!),
+                                grandTotal: int.parse(
+                                    e.price
+                                        ?.split('.')
+                                        .first ??
+                                        ''),
+                                namaJasa: e.jasa,
+                                namaItem: e.namaitem ??
+                                    'nama item gk muncul',
                               ))
                               .toList()),
                     )
@@ -235,7 +286,21 @@ class _PesananScreenState extends State<PesananScreen>
                               'SEDANG DIKERJAKAN')
                               .map((e) =>
                               PesananCard(
+                                idPesanan: int.parse(e.id ?? '0'),
                                 statusPesanan: e.paymentStatus,
+                                namaPenjahit: e.namapenjahit,
+                                invoice: '${e.tglOrder}',
+                                // itemImg: '$categoryImg/${e.}',
+                                jumlahItem:
+                                int.parse(e.quantity!),
+                                grandTotal: int.parse(
+                                    e.price
+                                        ?.split('.')
+                                        .first ??
+                                        ''),
+                                namaJasa: e.jasa,
+                                namaItem: e.namaitem ??
+                                    'nama item gk muncul',
                               ))
                               .toList()),
                     )
@@ -256,7 +321,21 @@ class _PesananScreenState extends State<PesananScreen>
                               'DALAM PENGIRIMAN')
                               .map((e) =>
                               PesananCard(
+                                idPesanan: int.parse(e.id ?? '0'),
                                 statusPesanan: e.paymentStatus,
+                                namaPenjahit: e.namapenjahit,
+                                invoice: '${e.tglOrder}',
+                                // itemImg: '$categoryImg/${e.}',
+                                jumlahItem:
+                                int.parse(e.quantity!),
+                                grandTotal: int.parse(
+                                    e.price
+                                        ?.split('.')
+                                        .first ??
+                                        ''),
+                                namaJasa: e.jasa,
+                                namaItem: e.namaitem ??
+                                    'nama item gk muncul',
                               ))
                               .toList()),
                     )
@@ -276,7 +355,21 @@ class _PesananScreenState extends State<PesananScreen>
                               'TAMBAHAN BIAYA')
                               .map((e) =>
                               PesananCard(
+                                idPesanan: int.parse(e.id ?? '0'),
                                 statusPesanan: e.paymentStatus,
+                                namaPenjahit: e.namapenjahit,
+                                invoice: '${e.tglOrder}',
+                                // itemImg: '$categoryImg/${e.}',
+                                jumlahItem:
+                                int.parse(e.quantity!),
+                                grandTotal: int.parse(
+                                    e.price
+                                        ?.split('.')
+                                        .first ??
+                                        ''),
+                                namaJasa: e.jasa,
+                                namaItem: e.namaitem ??
+                                    'nama item gk muncul',
                               ))
                               .toList()),
                     )
@@ -296,7 +389,21 @@ class _PesananScreenState extends State<PesananScreen>
                               'DITERIMA')
                               .map((e) =>
                               PesananCard(
+                                idPesanan: int.parse(e.id ?? '0'),
                                 statusPesanan: e.paymentStatus,
+                                namaPenjahit: e.namapenjahit,
+                                invoice: '${e.tglOrder}',
+                                // itemImg: '$categoryImg/${e.}',
+                                jumlahItem:
+                                int.parse(e.quantity!),
+                                grandTotal: int.parse(
+                                    e.price
+                                        ?.split('.')
+                                        .first ??
+                                        ''),
+                                namaJasa: e.jasa,
+                                namaItem: e.namaitem ??
+                                    'nama item gk muncul',
                               ))
                               .toList()),
                     )
@@ -305,7 +412,7 @@ class _PesananScreenState extends State<PesananScreen>
                     ),
                     controller.clientOrderModel!.data!.data!
                         .where((element) =>
-                    element.paymentStatus == 'SELESAI')
+                    element.paymentStatus == 'LUNAS')
                         .isNotEmpty
                         ? SingleChildScrollView(
                       child: Column(
@@ -313,10 +420,23 @@ class _PesananScreenState extends State<PesananScreen>
                               .clientOrderModel!.data!.data!
                               .where((element) =>
                           element.paymentStatus ==
-                              'SELESAI')
+                              'LUNAS')
                               .map((e) =>
                               PesananCard(
+                                idPesanan: int.parse(e.id ?? '0'),
                                 statusPesanan: e.paymentStatus,
+                                namaPenjahit: e.namapenjahit,
+                                invoice: '${e.tglOrder}',
+                                jumlahItem:
+                                int.parse(e.quantity!),
+                                grandTotal: int.parse(
+                                    e.price
+                                        ?.split('.')
+                                        .first ??
+                                        ''),
+                                namaJasa: e.jasa,
+                                namaItem: e.namaitem ??
+                                    'nama item gk muncul',
                               ))
                               .toList()),
                     )

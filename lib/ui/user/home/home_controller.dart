@@ -42,21 +42,6 @@ class HomeController extends BaseController {
     update();
   }
 
-  // Future<void> _fetchPage(int page) async {
-  //   try{
-  //     final newItems = await repository.getTailor(storage.getAccessToken()! ,page);
-  //     final isLastPage = newItems!.data!.total! < newItems.data!.perPage!;
-  //     if (isLastPage){
-  //       pagingController.appendLastPage(newItems.data!.data!);
-  //     } else  {
-  //       final nextPageKey = page + newItems.data!.data!.length;
-  //       pagingController.appendPage(newItems.data!.data!, nextPageKey);
-  //     }
-  //   } catch (error){
-  //     pagingController.error = error;
-  //   }
-  // }
-
   Future<void> categoryList() async {
     try {
       var category =

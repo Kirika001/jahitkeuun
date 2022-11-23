@@ -8,6 +8,7 @@ class SearchController extends BaseController{
   search.SearchTailorModel? searchTailorModel;
 
   bool isLoading = false;
+  bool showSearch = false;
   List<search.Data1> listSearch = [];
 
   @override

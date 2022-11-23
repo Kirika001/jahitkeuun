@@ -29,7 +29,7 @@ class Data {
   int? from;
   int? lastPage;
   String? lastPageUrl;
-  String? nextPageUrl;
+  dynamic nextPageUrl;
   String? path;
   int? perPage;
   dynamic prevPageUrl;
@@ -74,29 +74,32 @@ class Data {
 }
 
 class Data1 {
-  String? serviceId;
-  String? serviceName;
-  String? price;
   String? taylorId;
   String? taylorName;
+  String? districtName;
+  String? taylorRating;
+  dynamic taylorComtrans;
+  String? taylorPhoto;
 
-  Data1({this.serviceId, this.serviceName, this.price, this.taylorId, this.taylorName});
+  Data1({this.taylorId, this.taylorName, this.districtName, this.taylorRating, this.taylorComtrans, this.taylorPhoto});
 
   Data1.fromJson(Map<String, dynamic> json) {
-    serviceId = json["serviceId"];
-    serviceName = json["serviceName"];
-    price = json["price"];
     taylorId = json["taylorId"];
     taylorName = json["taylorName"];
+    districtName = json["districtName"];
+    taylorRating = json["taylorRating"];
+    taylorComtrans = json["taylorComtrans"];
+    taylorPhoto = json["taylorPhoto"];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["serviceId"] = serviceId;
-    _data["serviceName"] = serviceName;
-    _data["price"] = price;
     _data["taylorId"] = taylorId;
     _data["taylorName"] = taylorName;
+    _data["districtName"] = districtName;
+    _data["taylorRating"] = taylorRating;
+    _data["taylorComtrans"] = taylorComtrans;
+    _data["taylorPhoto"] = taylorPhoto;
     return _data;
   }
 }

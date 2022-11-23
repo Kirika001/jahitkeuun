@@ -9,6 +9,9 @@ class PesananController extends BaseController {
   @override
   void onInit() {
     super.onInit();
+    Future.wait([
+      clientOrderList()
+    ]);
   }
 
   Future<void> clientOrderList() async {

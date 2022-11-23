@@ -6,7 +6,7 @@ import 'package:jahitkeeun/const/temp_img.dart';
 import 'package:jahitkeeun/const/textstyle.dart';
 
 class TailorCard extends StatelessWidget {
-  final String? fotoProfil;
+  final String photo;
   final String? namaPenjahit;
   final String? lokasiPenjahit;
   final int? idPenjahit;
@@ -18,8 +18,7 @@ class TailorCard extends StatelessWidget {
 
   const TailorCard({
     Key? key,
-    this.fotoProfil =
-        'https://images.pexels.com/photos/5704849/pexels-photo-5704849.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+    this.photo = profilImg,
     this.namaPenjahit = 'Nanami',
     this.lokasiPenjahit = 'lokasi',
     this.rating = 3.5,
@@ -50,7 +49,8 @@ class TailorCard extends StatelessWidget {
               decoration: BoxDecoration(
                   color: darkColor, borderRadius: BorderRadius.circular(10)),
               child: Image.network(
-                fotoProfil ?? profilImg,
+                photo != 'avatar.png' ?
+                '$photo/${photo}' : profilImg,
                 fit: BoxFit.cover,
                 loadingBuilder: (BuildContext context, Widget child,
                     ImageChunkEvent? loadingProgress) {

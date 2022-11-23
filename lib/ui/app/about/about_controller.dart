@@ -13,11 +13,11 @@ class AboutController extends BaseController{
     if (Platform.isAndroid) WebView.platform = AndroidWebView();
   }
 
-  @override
-  Widget aboutWebview(BuildContext context) {
-    return WebView(
-      initialUrl: 'https://jahitkeeun-fe.vercel.app/',
-    );
-  }
+  // @override
+  // Widget aboutWebview(BuildContext context) {
+  //   return WebView(
+  //     initialUrl: 'https://jahitkeeun-fe.vercel.app/',
+  //   );
+  // }
 
 }

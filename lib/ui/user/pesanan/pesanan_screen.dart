@@ -1,12 +1,11 @@
-import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jahitkeeun/const/color.dart';
+import 'package:jahitkeeun/const/temp_img.dart';
 import 'package:jahitkeeun/const/textstyle.dart';
 import 'package:jahitkeeun/reusable/card_pesanan.dart';
 import 'package:jahitkeeun/reusable/customdivider.dart';
 import 'package:jahitkeeun/ui/user/pesanan/pesanan_controller.dart';
-import 'package:jahitkeeun/ui/user/pesanan/semua/semua_pesanan_screen.dart';
 
 class PesananScreen extends StatefulWidget {
   const PesananScreen({Key? key}) : super(key: key);
@@ -22,7 +21,7 @@ class _PesananScreenState extends State<PesananScreen>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 9, vsync: this);
+    tabController = TabController(length: 10, vsync: this);
   }
 
   @override
@@ -30,7 +29,8 @@ class _PesananScreenState extends State<PesananScreen>
     return GetBuilder<PesananController>(
         init: PesananController(),
         builder: (controller) {
-          return Column(
+          return controller.clientOrderModel != null
+              ? Column(
             children: [
               SafeArea(child: Container()),
               Padding(
@@ -40,14 +40,16 @@ class _PesananScreenState extends State<PesananScreen>
                     GestureDetector(
                       onTap: () => Get.toNamed('/search'),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 10),
                         width: Get.width - 70,
                         height: 50,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10)),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Cari penjahit, item atau jasa'),
                             Icon(Icons.search)
@@ -85,13 +87,16 @@ class _PesananScreenState extends State<PesananScreen>
                     text: "Semua Pesanan",
                   ),
                   Tab(
+                    text: "Belum Bayar",
+                  ),
+                  Tab(
                     text: "Pembayaran Terkonfirmasi",
                   ),
                   Tab(
                     text: "Menunggu Pickup",
                   ),
                   Tab(
-                    text: "Dalam Pengiriman",
+                    text: "Dalam Pengambilan",
                   ),
                   Tab(
                     text: "Proses Jahit",
@@ -103,10 +108,10 @@ class _PesananScreenState extends State<PesananScreen>
                     text: "Tambahan Biaya",
                   ),
                   Tab(
-                    text: "Selesai",
+                    text: "Diterima",
                   ),
                   Tab(
-                    text: "Diterima",
+                    text: "Selesai",
                   ),
                 ],
               ),
@@ -117,19 +122,214 @@ class _PesananScreenState extends State<PesananScreen>
                 child: TabBarView(
                   controller: tabController,
                   children: <Widget>[
-                    SemuaPesananScreen(),
-                    Text("PembayaranTerkonfirmasi()"),
-                    Text("MenungguPickup()"),
-                    Text("PesananDalamPengiriman()"),
-                    Text("ProsesJahit()"),
-                    Text("DalamPengantaran()"),
-                    Text("TambahanBiaya()"),
-                    Text("PesananSelesai()"),
-                    Text("PesananDiterima()"),
+                    controller.clientOrderModel!.data!.data! != null
+                        ? SingleChildScrollView(
+                      child: Column(
+                          children: controller
+                              .clientOrderModel!.data!.data!
+                              .map((e) =>
+                              PesananCard(
+                                statusPesanan: e.paymentStatus,
+                                namaPenjahit: e.namapenjahit,
+                                invoice: '${e.tglOrder}',
+                                // itemImg: '$categoryImg/${e.}',
+                                jumlahItem: int.parse(e.quantity!),
+                                grandTotal: int.parse(e.price?.split('.').first ?? ''),
+                                namaJasa: e.jasa,
+                                namaItem: '',
+                              ))
+                              .toList()),
+                    )
+                        : Center(child: Text('Data Kosong')),
+                    controller.clientOrderModel!.data!.data!
+                        .where((element) =>
+                    element.paymentStatus == 'BELUM BAYAR')
+                        .isNotEmpty
+                        ? SingleChildScrollView(
+                      child: Column(
+                          children: controller
+                              .clientOrderModel!.data!.data!
+                              .where((element) =>
+                          element.paymentStatus ==
+                              'BELUM BAYAR')
+                              .map((e) =>
+                              PesananCard(
+                                statusPesanan: e.paymentStatus,
+                              ))
+                              .toList()),
+                    )
+                        : Center(
+                      child: Text('Data Kosong'),
+                    ),
+                    controller.clientOrderModel!.data!.data!
+                        .where((element) =>
+                    element.paymentStatus == 'LUNAS')
+                        .isNotEmpty
+                        ? SingleChildScrollView(
+                      child: Column(
+                          children: controller
+                              .clientOrderModel!.data!.data!
+                              .where((element) =>
+                          element.paymentStatus == 'LUNAS')
+                              .map((e) =>
+                              PesananCard(
+                                statusPesanan: e.paymentStatus,
+                              ))
+                              .toList()),
+                    )
+                        : Center(
+                      child: Text('Data Kosong'),
+                    ),
+                    controller.clientOrderModel!.data!.data!
+                        .where((element) =>
+                    element.paymentStatus ==
+                        'MENUNGGU PICKUP')
+                        .isNotEmpty
+                        ? SingleChildScrollView(
+                      child: Column(
+                        children: controller
+                            .clientOrderModel!.data!.data!
+                            .where((element) =>
+                        element.paymentStatus ==
+                            'MENUNGGU PICKUP')
+                            .map((e) =>
+                            PesananCard(
+                              statusPesanan: e.paymentStatus,
+                            ))
+                            .toList(),
+                      ),
+                    )
+                        : Center(child: Text('Data Kosong')),
+                    controller.clientOrderModel!.data!.data!
+                        .where((element) =>
+                    element.paymentStatus ==
+                        'DALAM PENGAMBILAN')
+                        .isNotEmpty
+                        ? SingleChildScrollView(
+                      child: Column(
+                          children: controller
+                              .clientOrderModel!.data!.data!
+                              .where((element) =>
+                          element.paymentStatus ==
+                              'DALAM PENGAMBILAN')
+                              .map((e) =>
+                              PesananCard(
+                                statusPesanan: e.paymentStatus,
+                              ))
+                              .toList()),
+                    )
+                        : Center(
+                      child: Text('Data Kosong'),
+                    ),
+                    controller.clientOrderModel!.data!.data!
+                        .where((element) =>
+                    element.paymentStatus ==
+                        'SEDANG DIKERJAKAN')
+                        .isNotEmpty
+                        ? SingleChildScrollView(
+                      child: Column(
+                          children: controller
+                              .clientOrderModel!.data!.data!
+                              .where((element) =>
+                          element.paymentStatus ==
+                              'SEDANG DIKERJAKAN')
+                              .map((e) =>
+                              PesananCard(
+                                statusPesanan: e.paymentStatus,
+                              ))
+                              .toList()),
+                    )
+                        : Center(
+                      child: Text('Data Kosong'),
+                    ),
+                    controller.clientOrderModel!.data!.data!
+                        .where((element) =>
+                    element.paymentStatus ==
+                        'DALAM PENGIRIMAN')
+                        .isNotEmpty
+                        ? SingleChildScrollView(
+                      child: Column(
+                          children: controller
+                              .clientOrderModel!.data!.data!
+                              .where((element) =>
+                          element.paymentStatus ==
+                              'DALAM PENGIRIMAN')
+                              .map((e) =>
+                              PesananCard(
+                                statusPesanan: e.paymentStatus,
+                              ))
+                              .toList()),
+                    )
+                        : Center(
+                      child: Text('Data Kosong'),
+                    ),
+                    controller.clientOrderModel!.data!.data!
+                        .where((element) =>
+                    element.paymentStatus == 'TAMBAHAN BIAYA')
+                        .isNotEmpty
+                        ? SingleChildScrollView(
+                      child: Column(
+                          children: controller
+                              .clientOrderModel!.data!.data!
+                              .where((element) =>
+                          element.paymentStatus ==
+                              'TAMBAHAN BIAYA')
+                              .map((e) =>
+                              PesananCard(
+                                statusPesanan: e.paymentStatus,
+                              ))
+                              .toList()),
+                    )
+                        : Center(
+                      child: Text('Data Kosong'),
+                    ),
+                    controller.clientOrderModel!.data!.data!
+                        .where((element) =>
+                    element.paymentStatus == 'DITERIMA')
+                        .isNotEmpty
+                        ? SingleChildScrollView(
+                      child: Column(
+                          children: controller
+                              .clientOrderModel!.data!.data!
+                              .where((element) =>
+                          element.paymentStatus ==
+                              'DITERIMA')
+                              .map((e) =>
+                              PesananCard(
+                                statusPesanan: e.paymentStatus,
+                              ))
+                              .toList()),
+                    )
+                        : Center(
+                      child: Text('Data Kosong'),
+                    ),
+                    controller.clientOrderModel!.data!.data!
+                        .where((element) =>
+                    element.paymentStatus == 'SELESAI')
+                        .isNotEmpty
+                        ? SingleChildScrollView(
+                      child: Column(
+                          children: controller
+                              .clientOrderModel!.data!.data!
+                              .where((element) =>
+                          element.paymentStatus ==
+                              'SELESAI')
+                              .map((e) =>
+                              PesananCard(
+                                statusPesanan: e.paymentStatus,
+                              ))
+                              .toList()),
+                    )
+                        : Center(
+                      child: Text('Data Kosong'),
+                    ),
                   ],
                 ),
               ),
             ],
+          )
+              : Center(
+            child: CircularProgressIndicator.adaptive(),
           );
         });
   }

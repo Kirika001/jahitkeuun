@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:jahitkeeun/const/color.dart';
 import 'package:jahitkeeun/const/temp_img.dart';
 import 'package:jahitkeeun/const/textstyle.dart';
 import 'package:jahitkeeun/reusable/customdivider.dart';
 import 'package:jahitkeeun/reusable/item_product.dart';
 
-
+NumberFormat numberFormat = NumberFormat.currency(
+  locale: "id",
+  symbol: "Rp. ",
+  decimalDigits: 0
+);
 class PesananCard extends StatelessWidget {
   final VoidCallback? onTap;
   final String? namaPenjahit;
@@ -15,6 +20,8 @@ class PesananCard extends StatelessWidget {
   final int? jumlahItem;
   final int? grandTotal;
   final String? itemImg;
+  final String? namaItem;
+  final String? namaJasa;
 
   const PesananCard({
     Key? key,
@@ -26,6 +33,9 @@ class PesananCard extends StatelessWidget {
     this.jumlahItem = 1,
     this.grandTotal = 300000,
     this.itemImg = 'https://i.pinimg.com/564x/7b/bd/53/7bbd538f37332c17f174f94c20cab7b3.jpg',
+    this.namaItem = 'Kemeja',
+    this.namaJasa,
+
   }) : super(key: key);
 
   @override
@@ -46,15 +56,18 @@ class PesananCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  RichText(
-                      text: TextSpan(children: [
-                    TextSpan(
-                        text: namaPenjahit,
-                        style: labelTextStyle.copyWith(color: darkColor)),
-                    TextSpan(
-                        text: '\n$invoice',
-                        style: mainTextStyle.copyWith(color: darkColor))
-                  ])),
+                  SizedBox(
+                    width: 200,
+                    child: RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                          text: namaPenjahit,
+                          style: labelTextStyle.copyWith(color: darkColor)),
+                      TextSpan(
+                          text: '\n$invoice',
+                          style: mainTextStyle.copyWith(color: darkColor))
+                    ])),
+                  ),
                   Container(
                       padding:
                           EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -70,7 +83,14 @@ class PesananCard extends StatelessWidget {
               indent: 5,
               endIndent: 5,
             ),
-            ItemProduct(),
+            ItemProduct(
+              qty: jumlahItem,
+              itemImage: itemImg,
+              namaItem: namaItem,
+              namaJasa: namaJasa,
+              subTotal: grandTotal,
+
+            ),
             CustomDivider(
               color: secondaryColor.withOpacity(0.2),
               indent: 5,
@@ -106,7 +126,7 @@ class PesananCard extends StatelessWidget {
                             text: 'Total Pembayaran:',
                             style: mainTextStyle.copyWith(color: darkColor)),
                         TextSpan(
-                            text: '\nRp. ${grandTotal},-',
+                            text: '\n${numberFormat.format(grandTotal)},-',
                             style: labelTextStyle.copyWith(color: mainColor))
                       ])),
                 ],

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:jahitkeeun/base/base_controller.dart';
+import 'package:jahitkeeun/data/model/add_to_cart_model.dart';
 import 'package:jahitkeeun/data/model/category_bytailorid_model.dart'
 as category;
 import 'package:jahitkeeun/data/model/tailor_service_model.dart' as service;
@@ -36,6 +37,8 @@ class PesanJasaController extends BaseController {
 
   category.CategoryBytailoridModel? categoryTailorModel;
   service.TailorServiceModel? serviceTailorModel;
+  AddToCartModel? addToCartModel;
+
 
   List<category.Data1> listCategoryItem = [];
   List<service.Data1> listServiceItem = [];
@@ -159,6 +162,7 @@ class PesanJasaController extends BaseController {
           dateFormat.format(selectedDate),
           descriptionText,
           gettedPhoto!);
+
       Fluttertoast.showToast(
           msg: response?.meta?.message ?? 'gagal menambahkan keranjang');
       if (response?.meta?.status == 'success') {

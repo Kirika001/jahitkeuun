@@ -274,9 +274,12 @@ class RepositoryImpl implements Repository {
 
   @override
   FutureOr<SearchTailorModel?> searchTailor(
-      String token, String searchName) async {
+      String token, String keyword) async {
     try {
-      var response = await network.dio.get("/search/$searchName",
+      var response = await network.dio.post("/search",
+          data: {
+            "keyword" : keyword
+          },
           options: Options(headers: {
             "Accept": "application/json",
             "Authorization": "Bearer $token"

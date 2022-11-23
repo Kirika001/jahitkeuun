@@ -121,21 +121,21 @@ class HomeScreen extends StatelessWidget {
               PagedSliverList(
                 pagingController: controller.pagingController,
                 builderDelegate: PagedChildBuilderDelegate<tailor.Data2?>(
-                  itemBuilder: (context, item, index) {
+                  itemBuilder: (context, tailorData, index) {
                     return TailorCard(
                       idPenjahit: int.parse(
-                          item?.taylorId ??
+                          tailorData?.taylorId ??
                               "0"),
-                      namaPenjahit: item?.taylorName!.capitalizeFirst,
+                      namaPenjahit: tailorData?.taylorName!.capitalizeFirst,
                       // e.taylorPhoto,
-                      lokasiPenjahit: item?.districtName!.capitalizeFirst,
-                      rating: double.parse(item?.taylorRating ??
+                      lokasiPenjahit: tailorData?.districtName!.capitalizeFirst,
+                      rating: double.parse(tailorData?.taylorRating ??
                           '0'),
-                      totalOrder: int.parse(item?.taylorComtrans ??
+                      totalOrder: int.parse(tailorData?.taylorComtrans ??
                           '0'),
-                      fotoProfil: item?.taylorPhoto !=
+                      photo: tailorData?.taylorPhoto !=
                               'avatar.png'
-                          ? '$fotoProfil/${item?.taylorPhoto}'
+                          ? '$fotoProfil/${tailorData?.taylorPhoto}'
                           : profilImg,
                     );
                   },

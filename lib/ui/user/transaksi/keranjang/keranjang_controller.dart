@@ -160,7 +160,7 @@ class KeranjangController extends BaseController {
       checkoutModel = checkout;
 
       if(checkoutModel?.meta?.status == "success"){
-        Get.offNamed('/pesanan');
+        Get.offNamed('/checkout');
 
       }
 

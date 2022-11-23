@@ -35,7 +35,7 @@ abstract class Repository{
   FutureOr<UserCartModel?> getUserCart(String token, int userID);
   FutureOr<DeleteCartModel?> deleteUserCart(String token, int userID, int serviceID);
   FutureOr<UpdateQtyCartModel?> updateQtyCart(String token, int userID, int serviceID, String qty);
-  FutureOr<SearchTailorModel?> searchTailor(String token, String searchName);
+  FutureOr<SearchTailorModel?> searchTailor(String token, String keyword);
   FutureOr<CheckoutModel?> postCheckout(String token, int userID, int amount, String userAddress);
   FutureOr<ClientOrderModel?> getClientOrder(String token, int userID);
 }

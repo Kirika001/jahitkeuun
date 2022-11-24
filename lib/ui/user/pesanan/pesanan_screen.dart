@@ -20,7 +20,7 @@ class _PesananScreenState extends State<PesananScreen>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 10, vsync: this);
+    tabController = TabController(length: 9, vsync: this);
   }
 
   @override

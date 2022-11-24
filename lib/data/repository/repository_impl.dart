@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:jahitkeeun/data/model/add_to_cart_model.dart';
 import 'package:jahitkeeun/data/model/category_bytailorid_model.dart';
@@ -34,10 +35,10 @@ class RepositoryImpl implements Repository {
     try {
       var response = await network.dio.post('/auth/register',
           data: {"name": name, "email": email, "password": password});
-      print(response.data);
+      debugPrint(response.data);
       return RegisterModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.response?.data);
+      debugPrint(e.response?.data);
       return RegisterModel.fromJson(e.response?.data);
     }
   }
@@ -47,11 +48,11 @@ class RepositoryImpl implements Repository {
     try {
       var response = await network.dio
           .post('/auth/login', data: {"email": email, "password": password});
-      print(response.data);
+      debugPrint(response.data);
       return LoginModel.fromJson(response.data);
     } on DioError catch (e) {
-      print("error login : ${e.response?.data}");
-      // print("error login : ${LoginModel.fromJson(e?.response?.data)}");
+      debugPrint("error login : ${e.response?.data}");
+      // debugPrint("error login : ${LoginModel.fromJson(e?.response?.data)}");
       return e.response?.data!;
     }
   }
@@ -64,10 +65,10 @@ class RepositoryImpl implements Repository {
             "Accept": "application/json",
             "Authorization": "Bearer $token"
           }));
-      print(response.data);
+      debugPrint(response.data);
       return LogoutModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.response?.data.toString());
+      debugPrint(e.response?.data.toString());
       return LogoutModel.fromJson(e.response?.data);
     }
   }
@@ -85,7 +86,7 @@ class RepositoryImpl implements Repository {
       if (e.response!.statusCode == 401) {
         Get.offAllNamed('/login');
       }
-      print(e.error);
+      debugPrint(e.error);
       return e.error;
     }
   }
@@ -101,7 +102,7 @@ class RepositoryImpl implements Repository {
           }));
       return TailorModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.error);
+      debugPrint(e.error);
       return e.error;
     }
   }
@@ -117,11 +118,10 @@ class RepositoryImpl implements Repository {
           }));
       return CurrentAddressModel.fromJson(response.data);
     } on DioError catch (e) {
-
       if (e.response!.statusCode == 401) {
         Get.offAllNamed('/login');
       }
-      print(e.error);
+      debugPrint(e.error);
       return CurrentAddressModel.fromJson(e.response?.data);
     }
   }
@@ -137,7 +137,7 @@ class RepositoryImpl implements Repository {
           }));
       return TailorByitemidModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.error);
+      debugPrint(e.error);
       return e.error;
     }
   }
@@ -152,7 +152,7 @@ class RepositoryImpl implements Repository {
           }));
       return TailorDetailModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.error);
+      debugPrint(e.error);
       return e.error;
     }
   }
@@ -168,7 +168,7 @@ class RepositoryImpl implements Repository {
           }));
       return CategoryBytailoridModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.error);
+      debugPrint(e.error);
       return e.error;
     }
   }
@@ -185,7 +185,7 @@ class RepositoryImpl implements Repository {
           }));
       return TailorServiceModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.error);
+      debugPrint(e.error);
       return e.error;
     }
   }
@@ -215,10 +215,10 @@ class RepositoryImpl implements Repository {
             "Authorization": "Bearer $token",
             "Content-Type": "multipart/form-data"
           }));
-      print(response.data);
+      debugPrint(response.data);
       return AddToCartModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.response?.data);
+      debugPrint(e.response?.data);
       return AddToCartModel.fromJson(e.response?.data);
     }
   }
@@ -233,7 +233,7 @@ class RepositoryImpl implements Repository {
           }));
       return UserCartModel.fromJson(response.data);
     } on DioError catch (e) {
-      print('errornya : ${e.response?.data![1]}');
+      debugPrint('errornya : ${e.response?.data![1]}');
       return e.response?.data!;
     }
   }
@@ -250,7 +250,7 @@ class RepositoryImpl implements Repository {
           }));
       return DeleteCartModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.error);
+      debugPrint(e.error);
       return e.error;
     }
   }
@@ -268,29 +268,27 @@ class RepositoryImpl implements Repository {
           }));
       return UpdateQtyCartModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.error);
+      debugPrint(e.error);
       return e.error;
     }
   }
 
-  @override
-  FutureOr<SearchTailorModel?> searchTailor(
-      String token, String keyword) async {
-    try {
-      var response = await network.dio.post("/search",
-          data: {
-            "keyword" : keyword
-          },
-          options: Options(headers: {
-            "Accept": "application/json",
-            "Authorization": "Bearer $token"
-          }));
-      return SearchTailorModel.fromJson(response.data);
-    } on DioError catch (e) {
-      print(e.error);
-      return e.error;
-    }
-  }
+  // @override
+  // FutureOr<SearchTailorModel?> searchTailor(
+  //     String token, String keyword, int page) async {
+  //   try {
+  //     var response = await network.dio.post("/search?page=$page",
+  //         data: {"keyword": keyword},
+  //         options: Options(headers: {
+  //           "Accept": "application/json",
+  //           "Authorization": "Bearer $token"
+  //         }));
+  //     return SearchTailorModel.fromJson(response.data);
+  //   } on DioError catch (e) {
+  //     debugPrint(e.error);
+  //     return e.error;
+  //   }
+  // }
 
   @override
   FutureOr<CheckoutModel?> postCheckout(
@@ -311,7 +309,7 @@ class RepositoryImpl implements Repository {
           }));
       return CheckoutModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.error);
+      debugPrint(e.error);
       return e.error;
     }
   }
@@ -326,16 +324,16 @@ class RepositoryImpl implements Repository {
           }));
       return ClientOrderModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.error);
+      debugPrint(e.error);
       return e.error;
     }
   }
 
   @override
-  FutureOr<UpdateStatusorderModel?> updateStatusOrder(String token, int orderID, String orderStatus) async{
+  FutureOr<UpdateStatusorderModel?> updateStatusOrder(
+      String token, int orderID, String orderStatus) async {
     try {
-      var response = await network.dio.post(
-          "/ubahstatusorderdetailId/$orderID",
+      var response = await network.dio.post("/ubahstatusorderdetailId/$orderID",
           data: {"orderstatus": orderStatus},
           options: Options(headers: {
             "Accept": "application/json",
@@ -343,8 +341,24 @@ class RepositoryImpl implements Repository {
           }));
       return UpdateStatusorderModel.fromJson(response.data);
     } on DioError catch (e) {
-      print(e.error);
+      debugPrint(e.error);
       return e.error;
     }
+  }
+
+  @override
+  FutureOr<SearchTailorModel?> searchTailor(String token, String? keyword, int page) async {
+      try {
+        var response = await network.dio.post("/search?page=$page",
+            data: {"keyword": keyword},
+            options: Options(headers: {
+              "Accept": "application/json",
+              "Authorization": "Bearer $token"
+            }));
+        return SearchTailorModel.fromJson(response.data);
+      } on DioError catch (e) {
+        debugPrint(e.error);
+        return SearchTailorModel.fromJson(e.response?.data);
+      }
   }
 }

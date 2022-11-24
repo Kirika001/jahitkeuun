@@ -18,6 +18,7 @@ import 'package:jahitkeeun/data/model/tailor_detail_model.dart';
 import 'package:jahitkeeun/data/model/tailor_model.dart';
 import 'package:jahitkeeun/data/model/tailor_service_model.dart';
 import 'package:jahitkeeun/data/model/update_qty_cart_model.dart';
+import 'package:jahitkeeun/data/model/update_statusorder_model.dart';
 import 'package:jahitkeeun/data/model/user_cart_model.dart';
 
 abstract class Repository{
@@ -38,4 +39,5 @@ abstract class Repository{
   FutureOr<SearchTailorModel?> searchTailor(String token, String keyword);
   FutureOr<CheckoutModel?> postCheckout(String token, int userID, int amount, String userAddress);
   FutureOr<ClientOrderModel?> getClientOrder(String token, int userID);
+  FutureOr<UpdateStatusorderModel?> updateStatusOrder(String token, int orderID, String orderStatus);
 }

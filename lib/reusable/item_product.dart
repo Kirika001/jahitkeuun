@@ -28,6 +28,7 @@ class ItemProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Container(
+        width: 50, height: 50,
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
           color: darkColor,
@@ -35,6 +36,7 @@ class ItemProduct extends StatelessWidget {
         ),
         child: Image.network(
           itemImage!,
+          fit: BoxFit.cover,
           loadingBuilder: (BuildContext context, Widget child,
               ImageChunkEvent? loadingProgress) {
             if (loadingProgress == null) {

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:jahitkeeun/base/base_controller.dart';
 import 'package:jahitkeeun/const/color.dart';
 import 'package:jahitkeeun/data/model/client_order_model.dart';
+import 'package:jahitkeeun/data/model/update_statusorder_model.dart';
 
 class PesananController extends BaseController {
   ClientOrderModel? clientOrderModel;
+  UpdateStatusorderModel? updateStatusorderModel;
 
   String? cekStatus;
 
@@ -16,8 +19,10 @@ class PesananController extends BaseController {
   @override
   void onInit() {
     super.onInit();
-    Future.wait([clientOrderList()]);
-    status();
+    Future.wait([
+      clientOrderList()
+    ]);
+    statusPesanan();
   }
 
   Future<void> clientOrderList() async {
@@ -31,25 +36,39 @@ class PesananController extends BaseController {
     }
   }
 
-  void status() {
+  Future<void> updateOrder(int orderID, String orderStatus) async {
+    try {
+      var updateStatus = await repository.updateStatusOrder(
+          storage.getAccessToken() ?? '', orderID, orderStatus);
+
+      updateStatusorderModel = updateStatus;
+      Fluttertoast.showToast(msg: updateStatus?.meta?.message ?? 'gagal update');
+      if (updateStatus?.meta?.status == 'success') {
+        clientOrderList();
+        update();
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  void statusPesanan(){
     switch (cekStatus) {
-      case "BELUM BAYAR":
+      case "Menunggu Pembayaran":
         {
-          buttonColor = warningColor;
+          buttonColor = infoColor;
           buttonTitle = "Bayar Sekarang";
-          buttonAction = () {
-            print('bayar sekarang');
-          };
         }
         break;
       case "LUNAS":
         {
           buttonColor = Colors.transparent;
           buttonTitle = "";
-          buttonAction = () {
-            print('udah lunas');
-          };
         }
+        break;
     }
+
   }
+
+
 }

@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:jahitkeeun/const/color.dart';
 import 'package:jahitkeeun/const/temp_img.dart';
 import 'package:jahitkeeun/const/textstyle.dart';
+import 'package:jahitkeeun/data/model/update_statusorder_model.dart';
+import 'package:jahitkeeun/data/network_core.dart';
+import 'package:jahitkeeun/data/repository/repository.dart';
+import 'package:jahitkeeun/data/storage_core.dart';
 import 'package:jahitkeeun/reusable/customdivider.dart';
 import 'package:jahitkeeun/reusable/customfilledbutton.dart';
 import 'package:jahitkeeun/reusable/item_product.dart';
+import 'package:jahitkeeun/ui/user/pesanan/pesanan_controller.dart';
 
-NumberFormat numberFormat = NumberFormat.currency(
-  locale: "id",
-  symbol: "Rp. ",
-  decimalDigits: 0
-);
+NumberFormat numberFormat =
+    NumberFormat.currency(locale: "id", symbol: "Rp. ", decimalDigits: 0);
 
-late  String? buttonTitle;
-late VoidCallback? action;
+UpdateStatusorderModel? updateStatusorderModel;
+NetworkCore networkCore = Get.find<NetworkCore>();
+Repository repository = Get.find<Repository>();
+StorageCore storage = StorageCore();
+
+late String? buttonTitle;
 late Color? buttonColor;
 
 class PesananCard extends StatelessWidget {
@@ -29,6 +36,7 @@ class PesananCard extends StatelessWidget {
   final String? namaItem;
   final String? namaJasa;
   final int idPesanan;
+  final VoidCallback? actionButton;
 
   const PesananCard({
     Key? key,
@@ -39,35 +47,48 @@ class PesananCard extends StatelessWidget {
     this.statusColor = Colors.yellow,
     this.jumlahItem = 1,
     this.grandTotal = 300000,
-    this.itemImg = 'https://i.pinimg.com/564x/7b/bd/53/7bbd538f37332c17f174f94c20cab7b3.jpg',
+    this.itemImg = blouseImg,
     this.namaItem = 'Kemeja',
     this.namaJasa,
     required this.idPesanan,
-
+    this.actionButton,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    switch (statusPesanan) {
+      case "Menunggu Pembayaran":
+        {
+          buttonColor = warningColor;
+          buttonTitle = "Bayar Sekarang";
+        }
+        break;
+      case "Menunggu Pickup":
+        {
+          buttonColor = infoColor;
+          buttonTitle = "Bahan Dikirim";
+        }
+        break;
+      case "Dalam Perjalanan":
+        {
+          buttonColor = warningColor;
+          buttonTitle = "Paket Diterima";
+        }
+        break;
+      case "Diterima":
+        {
+          buttonColor = warningColor;
+          buttonTitle = "Selesaikan";
+        }
+        break;
 
-
-    switch(statusPesanan){
-      case "BELUM BAYAR" : {
-        buttonColor = errorColor;
-        buttonTitle = "Bayar Sekarang";
-        action = (){
-          print('bayar sekarang');
-        };
-      }
-      break;
-      case "LUNAS" : {
-        buttonColor = Colors.transparent;
-        buttonTitle = "";
-        action = (){
-          print('udah lunas');
-        };
-      }
+      default:
+        {
+          buttonColor = Colors.transparent;
+          buttonTitle = "";
+        }
+        break;
     }
-
 
     return GestureDetector(
       onTap: onTap,
@@ -86,7 +107,7 @@ class PesananCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: 200,
+                    width: 150,
                     child: RichText(
                         text: TextSpan(children: [
                       TextSpan(
@@ -98,6 +119,7 @@ class PesananCard extends StatelessWidget {
                     ])),
                   ),
                   Container(
+                      width: 110,
                       padding:
                           EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                       decoration: BoxDecoration(
@@ -150,8 +172,9 @@ class PesananCard extends StatelessWidget {
                             text: 'Total Pembayaran:',
                             style: mainTextStyle.copyWith(color: darkColor)),
                         TextSpan(
-                            text: '\n${numberFormat.format(grandTotal! * jumlahItem!.toInt())},-',
-                            style: labelTextStyle.copyWith(color: mainColor))
+                            text:
+                                '\n${numberFormat.format(grandTotal! * jumlahItem!.toInt())},-',
+                            style: labelTextStyle.copyWith(color: darkColor))
                       ])),
                   CustomFilledButton(
                     borderColor: Colors.transparent,
@@ -159,7 +182,7 @@ class PesananCard extends StatelessWidget {
                     title: buttonTitle ?? '',
                     height: 35,
                     width: 165,
-                    onPressed: action,
+                    onPressed: actionButton,
                   )
                 ],
               ),

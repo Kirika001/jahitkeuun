@@ -19,6 +19,7 @@ import 'package:jahitkeeun/data/model/tailor_detail_model.dart';
 import 'package:jahitkeeun/data/model/tailor_model.dart';
 import 'package:jahitkeeun/data/model/tailor_service_model.dart';
 import 'package:jahitkeeun/data/model/update_qty_cart_model.dart';
+import 'package:jahitkeeun/data/model/update_statusorder_model.dart';
 import 'package:jahitkeeun/data/model/user_cart_model.dart';
 import 'package:jahitkeeun/data/network_core.dart';
 import 'package:jahitkeeun/data/repository/repository.dart';
@@ -324,6 +325,23 @@ class RepositoryImpl implements Repository {
             "Authorization": "Bearer $token"
           }));
       return ClientOrderModel.fromJson(response.data);
+    } on DioError catch (e) {
+      print(e.error);
+      return e.error;
+    }
+  }
+
+  @override
+  FutureOr<UpdateStatusorderModel?> updateStatusOrder(String token, int orderID, String orderStatus) async{
+    try {
+      var response = await network.dio.post(
+          "/ubahstatusorderdetailId/$orderID",
+          data: {"orderstatus": orderStatus},
+          options: Options(headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer $token"
+          }));
+      return UpdateStatusorderModel.fromJson(response.data);
     } on DioError catch (e) {
       print(e.error);
       return e.error;
